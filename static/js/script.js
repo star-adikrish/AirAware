@@ -5,6 +5,7 @@ const searchForm = document.getElementById("searchForm");
 const message = document.getElementById("message");
 
 let pollutionChart;
+let requestSequence = 0;
 
 // Default location: Bengaluru
 let currentLocation = {
@@ -72,22 +73,27 @@ function getAQIInfo(aqi) {
 function setLoading(isLoading) {
     searchButton.disabled = isLoading;
     searchButton.textContent = isLoading ? "Loading..." : "Search";
+    searchForm.setAttribute("aria-busy", String(isLoading));
 }
 
 // Search for a city using Open-Meteo Geocoding
 async function searchCity(city) {
-    if (!city.trim()) {
+    const query = city.trim();
+
+    if (!query) {
         message.textContent = "Please enter a city name.";
+        cityInput.focus();
         return;
     }
 
     message.textContent = "Searching for city...";
     setLoading(true);
+    const requestId = ++requestSequence;
 
     try {
-        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
+        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=en&format=json`;
 
-        const response = await fetch(url);
+        const response = await fetchWithTimeout(url);
 
         if (!response.ok) {
             throw new Error("City search failed.");
@@ -101,34 +107,37 @@ async function searchCity(city) {
         }
 
         const result = data.results[0];
-
-        currentLocation = {
+        const location = {
             name: result.name,
             country: result.country || "",
             latitude: result.latitude,
             longitude: result.longitude
         };
 
-        await loadAirQuality();
+        await loadAirQuality(location, requestId);
 
     } catch (error) {
-        message.textContent = "Unable to search. Please try again.";
+        if (requestId === requestSequence) {
+            message.textContent = getErrorMessage(error, "Unable to search. Please try again.");
+        }
         console.error(error);
     } finally {
-        setLoading(false);
+        if (requestId === requestSequence) {
+            setLoading(false);
+        }
     }
 }
 
 // Fetch actual air-quality measurements
-async function loadAirQuality() {
+async function loadAirQuality(location = currentLocation, requestId = ++requestSequence) {
     message.textContent = "Fetching live air-quality data...";
     setLoading(true);
 
     try {
         const url =
-            `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${currentLocation.latitude}&longitude=${currentLocation.longitude}&current=us_aqi,pm2_5,pm10,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone&hourly=pm2_5&past_days=1&forecast_days=1&timezone=auto`;
+            `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${location.latitude}&longitude=${location.longitude}&current=us_aqi,pm2_5,pm10,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone&hourly=pm2_5&past_days=1&forecast_days=1&timezone=auto`;
 
-        const response = await fetch(url);
+        const response = await fetchWithTimeout(url);
 
         if (!response.ok) {
             throw new Error("Air-quality API request failed.");
@@ -140,35 +149,60 @@ async function loadAirQuality() {
             throw new Error("No current measurements available.");
         }
 
-        displayData(data);
+        if (requestId !== requestSequence) {
+            return;
+        }
 
+        currentLocation = location;
+        displayData(data);
         message.textContent =
             `Monitoring ${currentLocation.name}, ${currentLocation.country}.`;
 
     } catch (error) {
-        message.textContent = "Could not load air-quality data.";
+        if (requestId === requestSequence) {
+            message.textContent = getErrorMessage(error, "Could not load air-quality data.");
+        }
         console.error(error);
     } finally {
-        setLoading(false);
+        if (requestId === requestSequence) {
+            setLoading(false);
+        }
     }
+}
+
+async function fetchWithTimeout(url, timeout = 10000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+        return await fetch(url, { signal: controller.signal });
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+function getErrorMessage(error, fallback) {
+    return error.name === "AbortError"
+        ? "The request timed out. Please try again."
+        : fallback;
 }
 
 // Display the readings
 function displayData(data) {
     const current = data.current;
 
-    const aqi = current.us_aqi;
-    const info = aqi != null ? getAQIInfo(aqi) : { color: "#91a2b8" };
+    const aqi = toFiniteNumber(current.us_aqi);
+    const info = aqi !== null ? getAQIInfo(aqi) : { color: "#91a2b8" };
 
     document.getElementById("aqiValue").textContent =
-        aqi != null ? Math.round(aqi) : "--";
+        aqi !== null ? Math.round(aqi) : "--";
 
     const category = document.getElementById("aqiCategory");
-    category.textContent = aqi != null ? info.category : "Unavailable";
+    category.textContent = aqi !== null ? info.category : "Unavailable";
     category.style.color = info.color;
 
     document.getElementById("aqiDescription").textContent =
-        aqi != null ? info.description : "AQI measurement unavailable.";
+        aqi !== null ? info.description : "AQI measurement unavailable.";
 
     document.getElementById("aqiValue").style.color = info.color;
 
@@ -203,22 +237,28 @@ function displayData(data) {
         formatValue(current.ozone) + " µg/m³";
 
     document.getElementById("healthTitle").textContent =
-        aqi != null ? `${info.category} air quality` : "AQI unavailable";
+        aqi !== null ? `${info.category} air quality` : "AQI unavailable";
 
     document.getElementById("healthAdvice").textContent =
-        aqi != null ? info.advice : "Health recommendations are unavailable without an AQI reading.";
+        aqi !== null ? info.advice : "Health recommendations are unavailable without an AQI reading.";
 
     updateChart(data);
 }
 
 // Format measurements safely
 function formatValue(value) {
-    return value != null ? Number(value).toFixed(1) : "--";
+    const number = toFiniteNumber(value);
+    return number !== null ? number.toFixed(1) : "--";
+}
+
+function toFiniteNumber(value) {
+    const number = Number(value);
+    return value != null && Number.isFinite(number) ? number : null;
 }
 
 // Create or update pollution chart
 function updateChart(data) {
-    if (!data.hourly || !data.hourly.time || !data.hourly.pm2_5) {
+    if (!data.hourly?.time?.length || !data.hourly.pm2_5?.length) {
         return;
     }
 
@@ -236,14 +276,29 @@ function updateChart(data) {
     const readings = [];
 
     // Show recent and upcoming measurements
-    const currentTime = data.current.time;
-    const currentIndex = Math.max(0, times.indexOf(currentTime));
+    const currentTime = Date.parse(data.current.time);
+    const currentIndex = times.reduce((closestIndex, time, index) => {
+        if (!Number.isFinite(currentTime)) {
+            return closestIndex;
+        }
+
+        const closestDistance = Math.abs(Date.parse(times[closestIndex]) - currentTime);
+        const distance = Math.abs(Date.parse(time) - currentTime);
+        return distance < closestDistance ? index : closestIndex;
+    }, 0);
     const start = Math.max(0, currentIndex - 6);
     const end = Math.min(times.length, currentIndex + 7);
 
     for (let i = start; i < end; i++) {
-        labels.push(times[i].slice(11, 16));
-        readings.push(values[i]);
+        const value = toFiniteNumber(values[i]);
+        if (value !== null) {
+            labels.push(times[i].slice(11, 16));
+            readings.push(value);
+        }
+    }
+
+    if (!readings.length) {
+        return;
     }
 
     if (pollutionChart) {
