@@ -68,6 +68,24 @@ body {
     align-items: center;
     gap: 9px;
 }
+.cursor-glow {
+    position: fixed;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(0, 180, 255, 0.25),
+        rgba(0, 100, 255, 0.08),
+        transparent 70%
+    );
+
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    filter: blur(15px);
+    transition: left 0.08s ease, top 0.08s ease;
+}
 
 .status-dot {
     width: 8px;
