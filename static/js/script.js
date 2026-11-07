@@ -373,3 +373,12 @@ document.getElementById("currentDate").textContent =
 
 // Start the application
 loadAirQuality();
+
+const cursor = document.querySelector(".cursor-glow");
+
+if (cursor) {
+    document.addEventListener("mousemove", (event) => {
+        cursor.style.left = `${event.clientX}px`;
+        cursor.style.top = `${event.clientY}px`;
+    });
+}
