@@ -1,5 +1,15 @@
 # AirAware
+**AirAware – Understanding the Air Around Us**
 
+I started working on AirAware because I wanted to build something that was not just interesting to look at but also had a practical purpose. Air pollution is something we experience in our everyday lives, yet many people don't really pay attention to the quality of the air around them. I wanted to make that information easier to access and understand.
+
+While building AirAware, I worked on both the functionality and the overall design of the website. I experimented with different layouts, colours and animations to make it feel more interactive. One feature I particularly enjoyed adding was the cursor bubble effect, where small glowing bubbles follow the mouse as it moves across the screen. It's a small detail, but it makes the website feel much more alive.
+
+The development process wasn't always smooth. I had to figure out different things along the way, fix bugs, experiment with CSS and work on connecting the frontend with the backend using Flask. Sometimes even small changes took longer than expected, but that was also how I learned. I feel i have achieved quite a lot from this project
+
+## HOPE YOU LIKE IT!!
+
+AirAware gave me the opportunity to take an idea and actually build something out of it. I'm still learning, but I'm genuinely happy with how the project has developed and how much I've learned while making it.
 AirAware is a Flask dashboard for exploring current air-quality conditions by
 city. It uses the Open-Meteo geocoding and air-quality APIs to display US AQI,
 particulate matter, gaseous pollutants, and an hourly PM2.5 trend.
