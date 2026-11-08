@@ -1,13 +1,21 @@
 # AirAware
-**AirAware – Understanding the Air Around Us**
 
-I started working on AirAware because I wanted to build something that was not just interesting to look at but also had a practical purpose. Air pollution is something we experience in our everyday lives, yet many people don't really pay attention to the quality of the air around them. I wanted to make that information easier to access and understand.
+## Developer Review 
 
-While building AirAware, I worked on both the functionality and the overall design of the website. I experimented with different layouts, colours and animations to make it feel more interactive. One feature I particularly enjoyed adding was the cursor bubble effect, where small glowing bubbles follow the mouse as it moves across the screen. It's a small detail, but it makes the website feel much more alive.
+AirAware is a mobile app or as you might say a weather app. You might be thinking this is a normal app but it has many uses:-
+## Firstly,
 
-The development process wasn't always smooth. I had to figure out different things along the way, fix bugs, experiment with CSS and work on connecting the frontend with the backend using Flask. Sometimes even small changes took longer than expected, but that was also how I learned. I feel i have achieved quite a lot from this project
+It tells a user the Air Quality Index(AQI) of their city and points out the air pollution level or if it safe for people who have health issues
+Not only is this website focused for people with health issues but also for weather Geeks.
 
-## HOPE YOU LIKE IT!!
+## Secondly
+
+The whole website is free from fee and adds not like the current apps on the market
+
+## STAY AWARE & BREATHE BETTER
+
+## I hope you enjoy your experience with our AIRAWARE app
+
 
 AirAware gave me the opportunity to take an idea and actually build something out of it. I'm still learning, but I'm genuinely happy with how the project has developed and how much I've learned while making it.
 AirAware is a Flask dashboard for exploring current air-quality conditions by
