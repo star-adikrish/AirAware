@@ -482,28 +482,29 @@ h1 span {
 
 .cursor-glow {
     position: fixed;
-    width: 320px;
-    height: 320px;
+    width: 420px;
+    height: 420px;
     border-radius: 50%;
 
     background: radial-gradient(
         circle,
-        rgba(88, 166, 255, 0.32) 0%,
-        rgba(56, 139, 253, 0.18) 30%,
-        rgba(0, 180, 255, 0.08) 55%,
-        transparent 75%
+        rgba(88, 166, 255, 0.55) 0%,
+        rgba(56, 139, 253, 0.35) 25%,
+        rgba(0, 180, 255, 0.20) 45%,
+        rgba(88, 166, 255, 0.08) 65%,
+        transparent 78%
     );
 
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 9999;
 
-    filter: blur(18px);
-    opacity: 0.95;
+    filter: blur(22px);
+    opacity: 1;
 
     transition:
-        left 0.06s ease,
-        top 0.06s ease,
+        left 0.05s ease,
+        top 0.05s ease,
         opacity 0.2s ease;
 }
 
