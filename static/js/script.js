@@ -479,173 +479,86 @@ document.addEventListener("mousemove", (event) => {
 // CITY AUTOCOMPLETE
 // ==========================================
 
-const suggestionsBox = document.getElementById("citySuggestions");
-
-let suggestionTimeout;
-let suggestionRequest = 0;
-
-// Listen for city input
-cityInput.addEventListener("input", () => {
-    const query = cityInput.value.trim();
-
-    clearTimeout(suggestionTimeout);
-
-    if (query.length < 1) {
-        suggestionsBox.innerHTML = "";
-        suggestionsBox.classList.remove("show");
-        suggestionRequest++;
-        return;
-    }
-
-    suggestionTimeout = setTimeout(() => {
-        getCitySuggestions(query);
-    }, 300);
-});
-
-// Fetch matching cities from Open-Meteo
-async function getCitySuggestions(query) {
-    const requestId = ++suggestionRequest;
-
-    try {
-        const url =
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=7&language=en&format=json`;
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error("Unable to fetch city suggestions");
-        }
-
-        const data = await response.json();
-
-        // Ignore outdated responses
-        if (requestId !== suggestionRequest) return;
-
-        suggestionsBox.innerHTML = "";
-
-        if (!data.results || data.results.length === 0) {
-            suggestionsBox.classList.remove("show");
-            return;
-        }
-
-        data.results.forEach(city => {
-            const item = document.createElement("div");
-            item.className = "city-suggestion";
-
-            const locationDetails = [
-                city.admin1,
-                city.country
-            ].filter(Boolean).join(", ");
-
-            // Safely display city information
-            const name = document.createElement("strong");
-            name.textContent = city.name;
-
-            const details = document.createElement("small");
-            details.textContent = locationDetails;
-
-            item.appendChild(name);
-            item.appendChild(details);
-
-            // Select city and run existing search
-            item.addEventListener("click", () => {
-                cityInput.value = city.name;
-
-                suggestionsBox.classList.remove("show");
-                suggestionsBox.innerHTML = "";
-
-                searchForm.requestSubmit();
-            });
-
-            suggestionsBox.appendChild(item);
-        });
-
-        suggestionsBox.classList.add("show");
-
-    } catch (error) {
-        console.error("City suggestions error:", error);
-        suggestionsBox.classList.remove("show");
-    }
-}
-
-// Close dropdown when clicking outside
-document.addEventListener("click", (event) => {
-    if (
-        !cityInput.contains(event.target) &&
-        !suggestionsBox.contains(event.target)
-    ) {
-        suggestionsBox.classList.remove("show");
-    }
-});
-
-// CITY AUTOCOMPLETE
 const citySuggestions = document.getElementById("citySuggestions");
 
-let suggestionTimeout;
+let suggestionTimeout = null;
+let suggestionRequest = 0;
 
-cityInput.addEventListener("input", () => {
-    const query = cityInput.value.trim();
+if (cityInput && citySuggestions) {
+    cityInput.addEventListener("input", () => {
+        const query = cityInput.value.trim();
 
-    clearTimeout(suggestionTimeout);
+        clearTimeout(suggestionTimeout);
 
-    if (query.length < 2) {
-        citySuggestions.innerHTML = "";
-        citySuggestions.style.display = "none";
-        return;
-    }
-
-    suggestionTimeout = setTimeout(() => {
-        getCitySuggestions(query);
-    }, 300);
-});
-
-async function getCitySuggestions(query) {
-    try {
-        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=7&language=en&format=json`;
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        citySuggestions.innerHTML = "";
-
-        if (!data.results || data.results.length === 0) {
+        if (query.length < 2) {
+            citySuggestions.innerHTML = "";
             citySuggestions.style.display = "none";
+            suggestionRequest++;
             return;
         }
 
-        data.results.forEach(city => {
-            const suggestion = document.createElement("button");
+        suggestionTimeout = setTimeout(() => {
+            getCitySuggestions(query);
+        }, 300);
+    });
 
-            suggestion.type = "button";
-            suggestion.className = "city-suggestion";
+    async function getCitySuggestions(query) {
+        const requestId = ++suggestionRequest;
 
-            suggestion.textContent =
-                `${city.name}, ${city.admin1 ? city.admin1 + ", " : ""}${city.country}`;
+        try {
+            const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=7&language=en&format=json`;
 
-            suggestion.addEventListener("click", () => {
-                cityInput.value = city.name;
-                citySuggestions.innerHTML = "";
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error("Unable to fetch city suggestions");
+            }
+
+            const data = await response.json();
+
+            if (requestId !== suggestionRequest) {
+                return;
+            }
+
+            citySuggestions.innerHTML = "";
+
+            if (!data.results || data.results.length === 0) {
                 citySuggestions.style.display = "none";
+                return;
+            }
 
-                searchCity(city.name);
+            data.results.forEach(city => {
+                const suggestion = document.createElement("button");
+
+                suggestion.type = "button";
+                suggestion.className = "city-suggestion";
+                suggestion.textContent =
+                    `${city.name}${city.admin1 ? `, ${city.admin1}` : ""}${city.country ? `, ${city.country}` : ""}`;
+
+                suggestion.addEventListener("click", () => {
+                    cityInput.value = city.name;
+                    citySuggestions.innerHTML = "";
+                    citySuggestions.style.display = "none";
+                    searchCity(city.name);
+                });
+
+                citySuggestions.appendChild(suggestion);
             });
 
-            citySuggestions.appendChild(suggestion);
-        });
+            citySuggestions.style.display = "block";
 
-        citySuggestions.style.display = "block";
-
-    } catch (error) {
-        console.error("City suggestions error:", error);
+        } catch (error) {
+            console.error("City suggestions error:", error);
+            citySuggestions.style.display = "none";
+        }
     }
+
+    document.addEventListener("click", (event) => {
+        if (
+            !citySuggestions.contains(event.target) &&
+            !cityInput.contains(event.target)
+        ) {
+            citySuggestions.style.display = "none";
+        }
+    });
 }
-
-// Close suggestions when clicking outside
-document.addEventListener("click", (event) => {
-    if (
-        !citySuggestions.contains(event.target) &&
-        !cityInput.contains(event.target)
-    ) {
-        citySuggestions.style.display = "none";
-    }
-});
