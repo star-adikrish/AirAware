@@ -222,7 +222,6 @@ function toFiniteNumber(value) {
         : null;
 }
 
-// Animated AQI gauge
 function updateAQIGauge(aqi, color) {
     const gauge = document.getElementById("aqiGaugeProgress");
 
@@ -450,20 +449,17 @@ document.getElementById("currentDate").textContent =
 
 loadAirQuality();
 
-// Interactive cursor glow and mesh
 const cursor = document.querySelector(".cursor-glow");
 
 document.addEventListener("mousemove", (event) => {
     const x = event.clientX;
     const y = event.clientY;
 
-    // Move the cursor glow
     if (cursor) {
         cursor.style.left = `${x}px`;
         cursor.style.top = `${y}px`;
     }
 
-    // Move the mesh illumination
     document.documentElement.style.setProperty(
         "--mouse-x",
         `${x}px`
@@ -474,10 +470,6 @@ document.addEventListener("mousemove", (event) => {
         `${y}px`
     );
 });
-
-// ==========================================
-// CITY AUTOCOMPLETE
-// ==========================================
 
 const citySuggestions = document.getElementById("citySuggestions");
 
