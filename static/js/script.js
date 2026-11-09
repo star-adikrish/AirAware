@@ -7,7 +7,6 @@ const message = document.getElementById("message");
 let pollutionChart;
 let requestSequence = 0;
 
-// Default location: Bengaluru
 let currentLocation = {
     name: "Bengaluru",
     country: "India",
@@ -15,7 +14,6 @@ let currentLocation = {
     longitude: 77.5946
 };
 
-// AQI categories based on US EPA AQI ranges
 function getAQIInfo(aqi) {
     if (aqi <= 50) {
         return {
@@ -76,7 +74,6 @@ function setLoading(isLoading) {
     searchForm.setAttribute("aria-busy", String(isLoading));
 }
 
-// Search for a city using Open-Meteo Geocoding
 async function searchCity(city) {
     const query = city.trim();
 
@@ -88,6 +85,7 @@ async function searchCity(city) {
 
     message.textContent = "Searching for city...";
     setLoading(true);
+
     const requestId = ++requestSequence;
 
     try {
@@ -107,6 +105,7 @@ async function searchCity(city) {
         }
 
         const result = data.results[0];
+
         const location = {
             name: result.name,
             country: result.country || "",
@@ -118,9 +117,14 @@ async function searchCity(city) {
 
     } catch (error) {
         if (requestId === requestSequence) {
-            message.textContent = getErrorMessage(error, "Unable to search. Please try again.");
+            message.textContent = getErrorMessage(
+                error,
+                "Unable to search. Please try again."
+            );
         }
+
         console.error(error);
+
     } finally {
         if (requestId === requestSequence) {
             setLoading(false);
@@ -128,8 +132,10 @@ async function searchCity(city) {
     }
 }
 
-// Fetch actual air-quality measurements
-async function loadAirQuality(location = currentLocation, requestId = ++requestSequence) {
+async function loadAirQuality(
+    location = currentLocation,
+    requestId = ++requestSequence
+) {
     message.textContent = "Fetching live air-quality data...";
     setLoading(true);
 
@@ -154,15 +160,22 @@ async function loadAirQuality(location = currentLocation, requestId = ++requestS
         }
 
         currentLocation = location;
+
         displayData(data);
+
         message.textContent =
             `Monitoring ${currentLocation.name}, ${currentLocation.country}.`;
 
     } catch (error) {
         if (requestId === requestSequence) {
-            message.textContent = getErrorMessage(error, "Could not load air-quality data.");
+            message.textContent = getErrorMessage(
+                error,
+                "Could not load air-quality data."
+            );
         }
+
         console.error(error);
+
     } finally {
         if (requestId === requestSequence) {
             setLoading(false);
@@ -172,10 +185,16 @@ async function loadAirQuality(location = currentLocation, requestId = ++requestS
 
 async function fetchWithTimeout(url, timeout = 10000) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    const timeoutId = setTimeout(
+        () => controller.abort(),
+        timeout
+    );
 
     try {
-        return await fetch(url, { signal: controller.signal });
+        return await fetch(url, {
+            signal: controller.signal
+        });
     } finally {
         clearTimeout(timeoutId);
     }
@@ -187,24 +206,73 @@ function getErrorMessage(error, fallback) {
         : fallback;
 }
 
-// Display the readings
+function formatValue(value) {
+    const number = toFiniteNumber(value);
+
+    return number !== null
+        ? number.toFixed(1)
+        : "--";
+}
+
+function toFiniteNumber(value) {
+    const number = Number(value);
+
+    return value != null && Number.isFinite(number)
+        ? number
+        : null;
+}
+
+// Animated AQI gauge
+function updateAQIGauge(aqi, color) {
+    const gauge = document.getElementById("aqiGaugeProgress");
+
+    if (!gauge) return;
+
+    const circumference = 2 * Math.PI * 50;
+
+    gauge.style.strokeDasharray = circumference;
+
+    if (aqi === null) {
+        gauge.style.strokeDashoffset = circumference;
+        gauge.style.stroke = "#30363d";
+        return;
+    }
+
+    const progress = Math.min(Math.max(aqi, 0), 500) / 500;
+
+    gauge.style.strokeDashoffset =
+        circumference * (1 - progress);
+
+    gauge.style.stroke = color;
+}
+
 function displayData(data) {
     const current = data.current;
 
     const aqi = toFiniteNumber(current.us_aqi);
-    const info = aqi !== null ? getAQIInfo(aqi) : { color: "#91a2b8" };
+
+    const info = aqi !== null
+        ? getAQIInfo(aqi)
+        : { color: "#91a2b8" };
 
     document.getElementById("aqiValue").textContent =
         aqi !== null ? Math.round(aqi) : "--";
 
     const category = document.getElementById("aqiCategory");
-    category.textContent = aqi !== null ? info.category : "Unavailable";
+
+    category.textContent =
+        aqi !== null ? info.category : "Unavailable";
+
     category.style.color = info.color;
 
     document.getElementById("aqiDescription").textContent =
-        aqi !== null ? info.description : "AQI measurement unavailable.";
+        aqi !== null
+            ? info.description
+            : "AQI measurement unavailable.";
 
     document.getElementById("aqiValue").style.color = info.color;
+
+    updateAQIGauge(aqi, info.color);
 
     document.getElementById("locationName").textContent =
         `${currentLocation.name}, ${currentLocation.country}`;
@@ -216,7 +284,9 @@ function displayData(data) {
         `${Number(currentLocation.latitude).toFixed(4)}, ${Number(currentLocation.longitude).toFixed(4)}`;
 
     document.getElementById("observationTime").textContent =
-        current.time ? current.time.replace("T", " ") : "Unavailable";
+        current.time
+            ? current.time.replace("T", " ")
+            : "Unavailable";
 
     document.getElementById("pm25").textContent =
         formatValue(current.pm2_5);
@@ -237,26 +307,18 @@ function displayData(data) {
         formatValue(current.ozone) + " µg/m³";
 
     document.getElementById("healthTitle").textContent =
-        aqi !== null ? `${info.category} air quality` : "AQI unavailable";
+        aqi !== null
+            ? `${info.category} air quality`
+            : "AQI unavailable";
 
     document.getElementById("healthAdvice").textContent =
-        aqi !== null ? info.advice : "Health recommendations are unavailable without an AQI reading.";
+        aqi !== null
+            ? info.advice
+            : "Health recommendations are unavailable without an AQI reading.";
 
     updateChart(data);
 }
 
-// Format measurements safely
-function formatValue(value) {
-    const number = toFiniteNumber(value);
-    return number !== null ? number.toFixed(1) : "--";
-}
-
-function toFiniteNumber(value) {
-    const number = Number(value);
-    return value != null && Number.isFinite(number) ? number : null;
-}
-
-// Create or update pollution chart
 function updateChart(data) {
     if (!data.hourly?.time?.length || !data.hourly.pm2_5?.length) {
         return;
@@ -265,7 +327,9 @@ function updateChart(data) {
     const ctx = document.getElementById("pollutionChart");
 
     if (!ctx || typeof Chart === "undefined") {
-        console.warn("Chart.js is unavailable; displaying readings without the chart.");
+        console.warn(
+            "Chart.js is unavailable; displaying readings without the chart."
+        );
         return;
     }
 
@@ -275,22 +339,33 @@ function updateChart(data) {
     const labels = [];
     const readings = [];
 
-    // Show recent and upcoming measurements
     const currentTime = Date.parse(data.current.time);
+
     const currentIndex = times.reduce((closestIndex, time, index) => {
         if (!Number.isFinite(currentTime)) {
             return closestIndex;
         }
 
-        const closestDistance = Math.abs(Date.parse(times[closestIndex]) - currentTime);
-        const distance = Math.abs(Date.parse(time) - currentTime);
-        return distance < closestDistance ? index : closestIndex;
+        const closestDistance = Math.abs(
+            Date.parse(times[closestIndex]) - currentTime
+        );
+
+        const distance = Math.abs(
+            Date.parse(time) - currentTime
+        );
+
+        return distance < closestDistance
+            ? index
+            : closestIndex;
+
     }, 0);
+
     const start = Math.max(0, currentIndex - 6);
     const end = Math.min(times.length, currentIndex + 7);
 
     for (let i = start; i < end; i++) {
         const value = toFiniteNumber(values[i]);
+
         if (value !== null) {
             labels.push(times[i].slice(11, 16));
             readings.push(value);
@@ -310,11 +385,12 @@ function updateChart(data) {
 
         data: {
             labels: labels,
+
             datasets: [{
                 label: "PM2.5",
                 data: readings,
-                borderColor: "#43d9e8",
-                backgroundColor: "rgba(67, 217, 232, 0.12)",
+                borderColor: "#58a6ff",
+                backgroundColor: "rgba(88, 166, 255, 0.12)",
                 fill: true,
                 tension: 0.4,
                 borderWidth: 2,
@@ -338,18 +414,21 @@ function updateChart(data) {
                     grid: {
                         display: false
                     },
+
                     ticks: {
-                        color: "#91a2b8"
+                        color: "#8b949e"
                     }
                 },
 
                 y: {
                     beginAtZero: true,
+
                     grid: {
                         color: "rgba(145, 162, 184, 0.12)"
                     },
+
                     ticks: {
-                        color: "#91a2b8"
+                        color: "#8b949e"
                     }
                 }
             }
@@ -357,13 +436,11 @@ function updateChart(data) {
     });
 }
 
-// Search form
 searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     searchCity(cityInput.value);
 });
 
-// Date display
 document.getElementById("currentDate").textContent =
     new Date().toLocaleDateString("en-IN", {
         day: "numeric",
@@ -371,7 +448,6 @@ document.getElementById("currentDate").textContent =
         year: "numeric"
     });
 
-// Start the application
 loadAirQuality();
 
 const cursor = document.querySelector(".cursor-glow");
