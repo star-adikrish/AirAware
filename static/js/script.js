@@ -450,11 +450,27 @@ document.getElementById("currentDate").textContent =
 
 loadAirQuality();
 
+// Interactive cursor glow and mesh
 const cursor = document.querySelector(".cursor-glow");
 
-if (cursor) {
-    document.addEventListener("mousemove", (event) => {
-        cursor.style.left = `${event.clientX}px`;
-        cursor.style.top = `${event.clientY}px`;
-    });
-}
+document.addEventListener("mousemove", (event) => {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    // Move the cursor glow
+    if (cursor) {
+        cursor.style.left = `${x}px`;
+        cursor.style.top = `${y}px`;
+    }
+
+    // Move the mesh illumination
+    document.documentElement.style.setProperty(
+        "--mouse-x",
+        `${x}px`
+    );
+
+    document.documentElement.style.setProperty(
+        "--mouse-y",
+        `${y}px`
+    );
+});

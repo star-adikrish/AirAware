@@ -10,6 +10,10 @@
     --muted: #8b949e;
     --cyan: #58a6ff;
     --green: #3fb950;
+
+    /* Interactive mesh position */
+    --mouse-x: 50%;
+    --mouse-y: 50%;
 }
 
 * {
@@ -18,14 +22,86 @@
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
     background:
-        radial-gradient(ellipse at 50% -20%, rgba(56, 139, 253, 0.13), transparent 60%),
+        radial-gradient(
+            ellipse at 50% -20%,
+            rgba(56, 139, 253, 0.13),
+            transparent 60%
+        ),
         #0d1117;
+
     background-attachment: fixed;
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+}
+
+/* BACKGROUND GLOW */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle 260px at var(--mouse-x) var(--mouse-y),
+            rgba(56, 139, 253, 0.13),
+            rgba(56, 139, 253, 0.045) 45%,
+            transparent 75%
+        );
+
+    transition: background 0.08s ease;
+}
+
+/* INTERACTIVE MESH GRID */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(88, 166, 255, 0.075) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(88, 166, 255, 0.075) 1px,
+            transparent 1px
+        );
+
+    background-size: 38px 38px;
+
+    /* Slightly brighter mesh around cursor */
+    mask-image:
+        radial-gradient(
+            circle 240px at var(--mouse-x) var(--mouse-y),
+            black,
+            transparent 85%
+        );
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle 240px at var(--mouse-x) var(--mouse-y),
+            black,
+            transparent 85%
+        );
+}
+
+/* Keep website content above mesh */
+body > * {
+    position: relative;
 }
 
 .navbar {
@@ -479,32 +555,31 @@ h1 span {
     overflow-wrap: anywhere;
 }
 
-
+/* CURSOR GLOW */
 .cursor-glow {
     position: fixed;
-    width: 420px;
-    height: 420px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
 
     background: radial-gradient(
         circle,
-        rgba(88, 166, 255, 0.55) 0%,
-        rgba(56, 139, 253, 0.35) 25%,
-        rgba(0, 180, 255, 0.20) 45%,
-        rgba(88, 166, 255, 0.08) 65%,
-        transparent 78%
+        rgba(88, 166, 255, 0.24) 0%,
+        rgba(56, 139, 253, 0.13) 35%,
+        rgba(0, 180, 255, 0.05) 60%,
+        transparent 75%
     );
 
     pointer-events: none;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 4;
 
-    filter: blur(22px);
-    opacity: 1;
+    filter: blur(18px);
+    opacity: 0.9;
 
     transition:
-        left 0.05s ease,
-        top 0.05s ease,
+        left 0.06s ease,
+        top 0.06s ease,
         opacity 0.2s ease;
 }
 
@@ -733,6 +808,11 @@ footer .brand {
     .card {
         padding: 20px;
     }
+
+    body::before,
+    body::after {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -745,3 +825,4 @@ footer .brand {
         transition-duration: 0.01ms !important;
     }
 }
+
