@@ -57,15 +57,30 @@
                 <span class="info-icon">i</span>
             </div>
 
-            <div class="aqi-content">
-                <div class="aqi-number" id="aqiValue">--</div>
-                <div>
-                    <div class="aqi-category" id="aqiCategory">Loading...</div>
-                    <p class="aqi-description" id="aqiDescription">
-                        Fetching air quality data.
-                    </p>
-                </div>
-            </div>
+<div class="aqi-content">
+    <div class="aqi-gauge" id="aqiGauge">
+        <svg viewBox="0 0 120 120">
+            <circle class="gauge-track"
+                    cx="60" cy="60" r="50" />
+            <circle class="gauge-progress"
+                    id="aqiGaugeProgress"
+                    cx="60" cy="60" r="50" />
+        </svg>
+
+        <div class="aqi-gauge-value">
+            <div class="aqi-number" id="aqiValue">--</div>
+            <span>AQI</span>
+        </div>
+    </div>
+
+    <div>
+        <div class="aqi-category" id="aqiCategory">Loading...</div>
+        <p class="aqi-description" id="aqiDescription">
+            Fetching air quality data.
+        </p>
+    </div>
+</div>
+
 
             <div class="aqi-scale">
                 <div class="scale-gradient"></div>
