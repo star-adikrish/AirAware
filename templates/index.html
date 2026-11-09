@@ -1,260 +1,494 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d1117">
+
     <title>AirAware | Air Quality Intelligence</title>
+
     <link rel="stylesheet" href="../static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
+
     <div class="cursor-glow"></div>
+
+    <!-- NAVBAR -->
     <header class="navbar">
-    <div class="brand">
-        <span class="brand-icon" aria-hidden="true">◉</span>
-        Air<span>Aware</span>
-    </div>
-    <div class="nav-status">
-        <span class="status-dot"></span>
-        LIVE MONITORING
-    </div>
-</header>
 
-<main class="container">
-    <section class="welcome">
-        <div>
-            <p class="eyebrow">ENVIRONMENTAL INTELLIGENCE PLATFORM</p>
-            <h1>Understand the air<br>you <span>breathe.</span></h1>
-            <p class="subtitle">Real-time air quality insights for a healthier tomorrow.</p>
-        </div>
-        <div class="date-card">
-            <span>YOUR AIR QUALITY DASHBOARD</span>
-            <strong id="currentDate">Loading date...</strong>
-        </div>
-    </section>
- <section class="search-section" aria-labelledby="searchLabel">
-        <form class="search-box" id="searchForm" role="search">
-            <label id="searchLabel" class="sr-only" for="cityInput">Search for a city</label>
-            <span aria-hidden="true">⌕</span>
-            <input id="cityInput" type="search" placeholder="Search a city..." autocomplete="off" maxlength="100">
-            <button id="searchButton" type="submit">Search</button>
-        </form>
-        <p id="message" aria-live="polite">Currently monitoring Bengaluru, India.</p>
-    </section>
-<section class="section-heading">
-        <div>
-            <p class="eyebrow">OVERVIEW</p>
-            <h2>Air Quality Overview</h2>
-        </div>
-        <span class="live-label"><span class="status-dot" aria-hidden="true"></span> LIVE DATA</span>
-    </section>
-
-    <section class="dashboard-grid">
-
-        <div class="card aqi-card">
-            <div class="card-heading">
-                <span>US AIR QUALITY INDEX</span>
-                <span class="info-icon">i</span>
-            </div>
-
-<div class="aqi-content">
-    <div class="aqi-gauge" id="aqiGauge">
-        <svg viewBox="0 0 120 120">
-            <circle class="gauge-track"
-                    cx="60" cy="60" r="50" />
-            <circle class="gauge-progress"
-                    id="aqiGaugeProgress"
-                    cx="60" cy="60" r="50" />
-        </svg>
-
-        <div class="aqi-gauge-value">
-            <div class="aqi-number" id="aqiValue">--</div>
-            <span>AQI</span>
-        </div>
-    </div>
-
-    <div>
-        <div class="aqi-category" id="aqiCategory">Loading...</div>
-        <p class="aqi-description" id="aqiDescription">
-            Fetching air quality data.
-        </p>
-    </div>
-</div>
-
-
-            <div class="aqi-scale">
-                <div class="scale-gradient"></div>
-                <div class="scale-labels">
-                    <span>Good</span>
-                    <span>Moderate</span>
-                    <span>Poor</span>
-                    <span>Severe</span>
-                </div>
-            </div>
-
-            <div class="location-info">
-                <span>⌖</span>
-                <span id="locationName">Bengaluru, India</span>
-            </div>
+        <div class="brand">
+            <span class="brand-icon" aria-hidden="true">◉</span>
+            Air<span>Aware</span>
         </div>
 
-        <div class="card metric-card">
-            <div class="card-heading">
-                <span>PARTICULATE MATTER</span>
-                <span class="metric-icon">◈</span>
-            </div>
-
-            <div class="metric-item">
-                <div>
-                    <span class="metric-name">PM2.5</span>
-                    <p>Fine particles</p>
-                </div>
-                <div class="metric-value">
-                    <strong id="pm25">--</strong>
-                    <span>µg/m³</span>
-                </div>
-            </div>
-
-            <div class="metric-divider"></div>
-
-            <div class="metric-item">
-                <div>
-                    <span class="metric-name">PM10</span>
-                    <p>Coarse particles</p>
-                </div>
-                <div class="metric-value">
-                    <strong id="pm10">--</strong>
-                    <span>µg/m³</span>
-                </div>
-            </div>
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            LIVE MONITORING
         </div>
 
-        <div class="card metric-card">
-            <div class="card-heading">
-                <span>GASEOUS POLLUTANTS</span>
-                <span class="metric-icon">◉</span>
-            </div>
+    </header>
 
-            <div class="pollutant-list">
-                <div class="pollutant-row">
-                    <span>Carbon Monoxide</span>
-                    <strong id="co">--</strong>
-                </div>
-                <div class="pollutant-row">
-                    <span>Nitrogen Dioxide</span>
-                    <strong id="no2">--</strong>
-                </div>
-                <div class="pollutant-row">
-                    <span>Sulphur Dioxide</span>
-                    <strong id="so2">--</strong>
-                </div>
-                <div class="pollutant-row">
-                    <span>Ozone</span>
-                    <strong id="ozone">--</strong>
-                </div>
-            </div>
-        </div>
 
-    </section>
+    <main class="container">
 
-    <section class="section-heading chart-heading">
-        <div>
-            <p class="eyebrow">DATA ANALYTICS</p>
-            <h2>Pollution Analysis</h2>
-        </div>
-        <span class="chart-caption">Latest hourly measurements</span>
-    </section>
+        <!-- WELCOME SECTION -->
+        <section class="welcome">
 
-    <section class="card chart-card">
-        <div class="card-heading">
-            <span>PM2.5 HOURLY TREND</span>
-            <span class="chart-unit">µg/m³</span>
-        </div>
-        <div class="chart-container">
-            <canvas id="pollutionChart"></canvas>
-        </div>
-    </section>
-
-    <section class="research-section" aria-labelledby="researchHeading">
-        <div class="section-heading research-heading">
             <div>
-                <p class="eyebrow">FOR DEEP RESEARCH</p>
-                <h2 id="researchHeading">Read the signal</h2>
+                <p class="eyebrow">ENVIRONMENTAL INTELLIGENCE PLATFORM</p>
+
+                <h1>
+                    Understand the air<br>
+                    you <span>breathe.</span>
+                </h1>
+
+                <p class="subtitle">
+                    Real-time air quality insights for a healthier tomorrow.
+                </p>
             </div>
-            <span class="chart-caption">Context for every measurement</span>
-        </div>
 
-        <div class="research-grid">
-            <article class="research-card">
+            <div class="date-card">
+                <span>YOUR AIR QUALITY DASHBOARD</span>
+                <strong id="currentDate">Loading date...</strong>
+            </div>
+
+        </section>
+
+
+        <!-- CITY SEARCH -->
+        <section class="search-section" aria-labelledby="searchLabel">
+
+            <div class="search-wrapper">
+
+                <form class="search-box" id="searchForm" role="search">
+
+                    <label id="searchLabel" class="sr-only" for="cityInput">
+                        Search for a city
+                    </label>
+
+                    <span aria-hidden="true">⌕</span>
+
+                    <input
+                        id="cityInput"
+                        type="search"
+                        placeholder="Search a city..."
+                        autocomplete="off"
+                        maxlength="100"
+                        aria-label="Search for a city"
+                        aria-autocomplete="list"
+                        aria-controls="citySuggestions"
+                    >
+
+                    <button id="searchButton" type="submit">
+                        Search
+                    </button>
+
+                </form>
+
+                <!-- AUTOCOMPLETE DROPDOWN -->
+                <div
+                    id="citySuggestions"
+                    class="city-suggestions"
+                    role="listbox"
+                    aria-label="City suggestions"
+                ></div>
+
+            </div>
+
+            <p id="message" aria-live="polite">
+                Currently monitoring Bengaluru, India.
+            </p>
+
+        </section>
+
+
+        <!-- OVERVIEW -->
+        <section class="section-heading">
+
+            <div>
+                <p class="eyebrow">OVERVIEW</p>
+                <h2>Air Quality Overview</h2>
+            </div>
+
+            <span class="live-label">
+                <span class="status-dot" aria-hidden="true"></span>
+                LIVE DATA
+            </span>
+
+        </section>
+
+
+        <!-- DASHBOARD -->
+        <section class="dashboard-grid">
+
+            <!-- AQI CARD -->
+            <div class="card aqi-card">
+
                 <div class="card-heading">
-                    <span>OBSERVATION CONTEXT</span>
-                    <span class="metric-icon" aria-hidden="true">⌁</span>
+                    <span>US AIR QUALITY INDEX</span>
+                    <span class="info-icon">i</span>
                 </div>
-                <dl class="research-facts">
-                    <div>
-                        <dt>Location</dt>
-                        <dd id="researchLocation">Bengaluru, India</dd>
-                    </div>
-                    <div>
-                        <dt>Coordinates</dt>
-                        <dd id="researchCoordinates">12.9716, 77.5946</dd>
-                    </div>
-                    <div>
-                        <dt>Observation time</dt>
-                        <dd id="observationTime">Waiting for data...</dd>
-                    </div>
-                    <div>
-                        <dt>Data window</dt>
-                        <dd>Previous 24h + next 24h</dd>
-                    </div>
-                </dl>
-            </article>
 
-            <article class="research-card methodology-card">
+                <div class="aqi-content">
+
+                    <div class="aqi-gauge" id="aqiGauge">
+
+                        <svg viewBox="0 0 120 120">
+
+                            <circle
+                                class="gauge-track"
+                                cx="60"
+                                cy="60"
+                                r="50"
+                            />
+
+                            <circle
+                                class="gauge-progress"
+                                id="aqiGaugeProgress"
+                                cx="60"
+                                cy="60"
+                                r="50"
+                            />
+
+                        </svg>
+
+                        <div class="aqi-gauge-value">
+
+                            <div class="aqi-number" id="aqiValue">
+                                --
+                            </div>
+
+                            <span>AQI</span>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="aqi-category" id="aqiCategory">
+                            Loading...
+                        </div>
+
+                        <p class="aqi-description" id="aqiDescription">
+                            Fetching air quality data.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="aqi-scale">
+
+                    <div class="scale-gradient"></div>
+
+                    <div class="scale-labels">
+                        <span>Good</span>
+                        <span>Moderate</span>
+                        <span>Poor</span>
+                        <span>Severe</span>
+                    </div>
+
+                </div>
+
+                <div class="location-info">
+                    <span>⌖</span>
+                    <span id="locationName">Bengaluru, India</span>
+                </div>
+
+            </div>
+
+
+            <!-- PARTICULATE MATTER -->
+            <div class="card metric-card">
+
                 <div class="card-heading">
-                    <span>INTERPRETATION NOTES</span>
-                    <span class="metric-icon" aria-hidden="true">i</span>
+                    <span>PARTICULATE MATTER</span>
+                    <span class="metric-icon">◈</span>
                 </div>
-                <ul class="research-list">
-                    <li><strong>AQI:</strong> US EPA-style index from 0 to 500; higher values indicate greater health concern.</li>
-                    <li><strong>Particles:</strong> PM2.5 and PM10 are reported as mass concentration in µg/m³.</li>
-                    <li><strong>Gases:</strong> CO, NO₂, SO₂, and ozone readings are reported in µg/m³ by the source API.</li>
-                    <li><strong>Scope:</strong> These are modelled hourly estimates, not a substitute for a certified local monitor.</li>
-                </ul>
-            </article>
-        </div>
 
-        <article class="research-card glossary-card">
+                <div class="metric-item">
+
+                    <div>
+                        <span class="metric-name">PM2.5</span>
+                        <p>Fine particles</p>
+                    </div>
+
+                    <div class="metric-value">
+                        <strong id="pm25">--</strong>
+                        <span>µg/m³</span>
+                    </div>
+
+                </div>
+
+                <div class="metric-divider"></div>
+
+                <div class="metric-item">
+
+                    <div>
+                        <span class="metric-name">PM10</span>
+                        <p>Coarse particles</p>
+                    </div>
+
+                    <div class="metric-value">
+                        <strong id="pm10">--</strong>
+                        <span>µg/m³</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- GASEOUS POLLUTANTS -->
+            <div class="card metric-card">
+
+                <div class="card-heading">
+                    <span>GASEOUS POLLUTANTS</span>
+                    <span class="metric-icon">◉</span>
+                </div>
+
+                <div class="pollutant-list">
+
+                    <div class="pollutant-row">
+                        <span>Carbon Monoxide</span>
+                        <strong id="co">--</strong>
+                    </div>
+
+                    <div class="pollutant-row">
+                        <span>Nitrogen Dioxide</span>
+                        <strong id="no2">--</strong>
+                    </div>
+
+                    <div class="pollutant-row">
+                        <span>Sulphur Dioxide</span>
+                        <strong id="so2">--</strong>
+                    </div>
+
+                    <div class="pollutant-row">
+                        <span>Ozone</span>
+                        <strong id="ozone">--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- POLLUTION ANALYSIS -->
+        <section class="section-heading chart-heading">
+
+            <div>
+                <p class="eyebrow">DATA ANALYTICS</p>
+                <h2>Pollution Analysis</h2>
+            </div>
+
+            <span class="chart-caption">
+                Latest hourly measurements
+            </span>
+
+        </section>
+
+
+        <section class="card chart-card">
+
             <div class="card-heading">
-                <span>POLLUTANT GLOSSARY</span>
-                <span class="chart-unit">WHY IT MATTERS</span>
+                <span>PM2.5 HOURLY TREND</span>
+                <span class="chart-unit">µg/m³</span>
             </div>
-            <div class="glossary-grid">
-                <div><strong>PM2.5</strong><span>Fine particles that can travel deep into the lungs.</span></div>
-                <div><strong>PM10</strong><span>Larger inhalable particles from dust, roads, and industry.</span></div>
-                <div><strong>NO₂</strong><span>Traffic and combustion gas linked to airway irritation.</span></div>
-                <div><strong>O₃</strong><span>Reactive ground-level ozone formed in sunlight.</span></div>
+
+            <div class="chart-container">
+                <canvas id="pollutionChart"></canvas>
             </div>
-        </article>
-    </section>
 
-    <section class="health-card">
-        <div class="health-icon">✳</div>
-        <div>
-            <p class="eyebrow">HEALTH INSIGHTS</p>
-            <h3 id="healthTitle">Your air quality update</h3>
-            <p id="healthAdvice">Loading recommendations...</p>
-            <small>General guidance only, not medical advice.</small>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-        <div class="brand">Air<span>Aware</span></div>
-        <p>Making environmental data easier to understand.</p>
-        <p class="data-source">Data powered by Open-Meteo Air Quality API.</p>
-    </footer>
 
-</main>
-<script src="../static/js/script.js"></script>
+        <!-- RESEARCH SECTION -->
+        <section class="research-section" aria-labelledby="researchHeading">
+
+            <div class="section-heading research-heading">
+
+                <div>
+                    <p class="eyebrow">FOR DEEP RESEARCH</p>
+                    <h2 id="researchHeading">Read the signal</h2>
+                </div>
+
+                <span class="chart-caption">
+                    Context for every measurement
+                </span>
+
+            </div>
+
+
+            <div class="research-grid">
+
+                <!-- OBSERVATION CONTEXT -->
+                <article class="research-card">
+
+                    <div class="card-heading">
+                        <span>OBSERVATION CONTEXT</span>
+                        <span class="metric-icon" aria-hidden="true">⌁</span>
+                    </div>
+
+                    <dl class="research-facts">
+
+                        <div>
+                            <dt>Location</dt>
+                            <dd id="researchLocation">Bengaluru, India</dd>
+                        </div>
+
+                        <div>
+                            <dt>Coordinates</dt>
+                            <dd id="researchCoordinates">12.9716, 77.5946</dd>
+                        </div>
+
+                        <div>
+                            <dt>Observation time</dt>
+                            <dd id="observationTime">Waiting for data...</dd>
+                        </div>
+
+                        <div>
+                            <dt>Data window</dt>
+                            <dd>Previous 24h + next 24h</dd>
+                        </div>
+
+                    </dl>
+
+                </article>
+
+
+                <!-- INTERPRETATION NOTES -->
+                <article class="research-card methodology-card">
+
+                    <div class="card-heading">
+                        <span>INTERPRETATION NOTES</span>
+                        <span class="metric-icon" aria-hidden="true">i</span>
+                    </div>
+
+                    <ul class="research-list">
+
+                        <li>
+                            <strong>AQI:</strong>
+                            US EPA-style index from 0 to 500; higher values
+                            indicate greater health concern.
+                        </li>
+
+                        <li>
+                            <strong>Particles:</strong>
+                            PM2.5 and PM10 are reported as mass concentration
+                            in µg/m³.
+                        </li>
+
+                        <li>
+                            <strong>Gases:</strong>
+                            CO, NO₂, SO₂, and ozone readings are reported
+                            in µg/m³ by the source API.
+                        </li>
+
+                        <li>
+                            <strong>Scope:</strong>
+                            These are modelled hourly estimates, not a
+                            substitute for a certified local monitor.
+                        </li>
+
+                    </ul>
+
+                </article>
+
+            </div>
+
+
+            <!-- POLLUTANT GLOSSARY -->
+            <article class="research-card glossary-card">
+
+                <div class="card-heading">
+                    <span>POLLUTANT GLOSSARY</span>
+                    <span class="chart-unit">WHY IT MATTERS</span>
+                </div>
+
+                <div class="glossary-grid">
+
+                    <div>
+                        <strong>PM2.5</strong>
+                        <span>Fine particles that can travel deep into the lungs.</span>
+                    </div>
+
+                    <div>
+                        <strong>PM10</strong>
+                        <span>Larger inhalable particles from dust, roads, and industry.</span>
+                    </div>
+
+                    <div>
+                        <strong>NO₂</strong>
+                        <span>Traffic and combustion gas linked to airway irritation.</span>
+                    </div>
+
+                    <div>
+                        <strong>O₃</strong>
+                        <span>Reactive ground-level ozone formed in sunlight.</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- HEALTH INSIGHTS -->
+        <section class="health-card">
+
+            <div class="health-icon">✳</div>
+
+            <div>
+
+                <p class="eyebrow">HEALTH INSIGHTS</p>
+
+                <h3 id="healthTitle">
+                    Your air quality update
+                </h3>
+
+                <p id="healthAdvice">
+                    Loading recommendations...
+                </p>
+
+                <small>
+                    General guidance only, not medical advice.
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            <div class="brand">
+                Air<span>Aware</span>
+            </div>
+
+            <p>
+                Making environmental data easier to understand.
+            </p>
+
+            <p class="data-source">
+                Data powered by Open-Meteo Air Quality API.
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- EXISTING JAVASCRIPT FILE -->
+    <script src="../static/js/script.js"></script>
+
 </body>
 </html>

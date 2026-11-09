@@ -11,10 +11,13 @@
     --cyan: #58a6ff;
     --green: #3fb950;
 
-    /* Interactive mesh position */
     --mouse-x: 50%;
     --mouse-y: 50%;
 }
+
+/* =================================
+   GLOBAL
+================================= */
 
 * {
     margin: 0;
@@ -43,31 +46,30 @@ body {
     isolation: isolate;
 }
 
-/* BACKGROUND GLOW */
+/* =================================
+   INTERACTIVE BACKGROUND
+================================= */
+
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
 
-    background:
-        radial-gradient(
-            circle 260px at var(--mouse-x) var(--mouse-y),
-            rgba(56, 139, 253, 0.13),
-            rgba(56, 139, 253, 0.045) 45%,
-            transparent 75%
-        );
-
-    transition: background 0.08s ease;
+    background: radial-gradient(
+        circle 260px at var(--mouse-x) var(--mouse-y),
+        rgba(56, 139, 253, 0.13),
+        rgba(56, 139, 253, 0.045) 45%,
+        transparent 75%
+    );
 }
 
-/* INTERACTIVE MESH GRID */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 5;
+    z-index: 1;
     pointer-events: none;
 
     background-image:
@@ -83,26 +85,59 @@ body::after {
 
     background-size: 38px 38px;
 
-    /* Slightly brighter mesh around cursor */
-    mask-image:
-        radial-gradient(
-            circle 240px at var(--mouse-x) var(--mouse-y),
-            black,
-            transparent 85%
-        );
+    mask-image: radial-gradient(
+        circle 240px at var(--mouse-x) var(--mouse-y),
+        black,
+        transparent 85%
+    );
 
-    -webkit-mask-image:
-        radial-gradient(
-            circle 240px at var(--mouse-x) var(--mouse-y),
-            black,
-            transparent 85%
-        );
+    -webkit-mask-image: radial-gradient(
+        circle 240px at var(--mouse-x) var(--mouse-y),
+        black,
+        transparent 85%
+    );
 }
 
-/* Keep website content above mesh */
+/* Keep content above the background */
 body > * {
     position: relative;
+    z-index: 2;
 }
+
+/* =================================
+   CURSOR GLOW
+================================= */
+
+.cursor-glow {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(88, 166, 255, 0.24) 0%,
+        rgba(56, 139, 253, 0.13) 35%,
+        rgba(0, 180, 255, 0.05) 60%,
+        transparent 75%
+    );
+
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+
+    filter: blur(18px);
+    opacity: 0.9;
+
+    transition:
+        left 0.06s ease,
+        top 0.06s ease,
+        opacity 0.2s ease;
+}
+
+/* =================================
+   NAVIGATION
+================================= */
 
 .navbar {
     position: sticky;
@@ -110,12 +145,15 @@ body > * {
     z-index: 10;
     height: 76px;
     padding: 0 7%;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     background: rgba(13, 17, 23, 0.82);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+
     border-bottom: 1px solid rgba(139, 148, 158, 0.15);
 }
 
@@ -141,6 +179,7 @@ body > * {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
+
     display: flex;
     align-items: center;
     gap: 9px;
@@ -161,6 +200,10 @@ body > * {
         opacity: 0.4;
     }
 }
+
+/* =================================
+   MAIN CONTAINER
+================================= */
 
 .container {
     width: min(1180px, 88%);
@@ -221,20 +264,29 @@ h1 span {
     font-size: 14px;
 }
 
+/* =================================
+   SEARCH BAR
+================================= */
+
 .search-section {
     margin-bottom: 43px;
+    position: relative;
+    z-index: 8;
     animation: fadeUp 0.65s ease 0.08s both;
 }
 
 .search-box {
     display: flex;
     align-items: center;
+
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 13px;
+
     padding: 7px 8px 7px 17px;
     max-width: 600px;
     gap: 12px;
+
     transition: 0.25s ease;
 }
 
@@ -251,20 +303,33 @@ h1 span {
 .search-box input {
     flex: 1;
     min-width: 0;
-    background: transparent;
-    border: none;
-    outline: none;
+
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+
     color: white;
     font: inherit;
     font-size: 14px;
+}
+
+.search-box input:focus,
+.search-box input:focus-visible {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .search-box button {
     border: none;
     border-radius: 9px;
     padding: 11px 22px;
+
     background: #238636;
     color: white;
+
     font-weight: 700;
     cursor: pointer;
     transition: 0.2s ease;
@@ -275,8 +340,7 @@ h1 span {
     transform: translateY(-2px);
 }
 
-.search-box button:focus-visible,
-.search-box input:focus-visible {
+.search-box button:focus-visible {
     outline: 2px solid var(--cyan);
     outline-offset: 3px;
 }
@@ -305,6 +369,81 @@ h1 span {
     margin-top: 10px;
 }
 
+/* =================================
+   CITY AUTOCOMPLETE
+================================= */
+
+.city-suggestions {
+    display: none;
+    position: absolute;
+
+    /* Place dropdown directly below search bar */
+    top: 62px;
+    left: 0;
+
+    width: 100%;
+    max-width: 600px;
+    max-height: 210px;
+    overflow-y: auto;
+
+    background: #f8fafc;
+    border: 1px solid #dbe4ee;
+    border-radius: 10px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.city-suggestions.show {
+    display: block;
+}
+
+.city-suggestion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    width: 100%;
+    padding: 10px 14px;
+
+    background: transparent;
+    color: #172438;
+
+    border: none;
+    border-bottom: 1px solid #e5eaf0;
+
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+
+    transition: background 0.2s ease;
+}
+
+.city-suggestion:hover {
+    background: #e8f4ff;
+}
+
+.city-suggestion strong {
+    color: #172438;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.city-suggestion small {
+    color: #64748b;
+    font-size: 11px;
+    text-align: right;
+}
+
+.city-suggestion:last-child {
+    border-bottom: none;
+}
+
+/* =================================
+   SECTION HEADINGS
+================================= */
+
 .section-heading {
     display: flex;
     justify-content: space-between;
@@ -315,6 +454,10 @@ h1 span {
 .section-heading h2 {
     font-size: 23px;
 }
+
+/* =================================
+   DASHBOARD
+================================= */
 
 .dashboard-grid {
     display: grid;
@@ -327,17 +470,23 @@ h1 span {
 .date-card,
 .research-card {
     min-width: 0;
+
     background: rgba(22, 27, 34, 0.85);
     border: 1px solid rgba(139, 148, 158, 0.17);
     border-radius: 18px;
+
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
 
 .card {
     padding: 24px;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .card:hover {
@@ -350,6 +499,7 @@ h1 span {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 1.2px;
@@ -364,6 +514,10 @@ h1 span {
     text-align: center;
     line-height: 18px;
 }
+
+/* =================================
+   AQI GAUGE
+================================= */
 
 .aqi-content {
     display: flex;
@@ -399,7 +553,14 @@ h1 span {
 .scale-gradient {
     height: 8px;
     border-radius: 20px;
-    background: linear-gradient(90deg, #5ce0a0, #d7df5a, #f6a44a, #ef5a55, #a85bce);
+    background: linear-gradient(
+        90deg,
+        #5ce0a0,
+        #d7df5a,
+        #f6a44a,
+        #ef5a55,
+        #a85bce
+    );
     overflow: hidden;
 }
 
@@ -415,8 +576,10 @@ h1 span {
     border-top: 1px solid var(--border);
     padding-top: 16px;
     margin-top: 23px;
+
     color: var(--muted);
     font-size: 12px;
+
     display: flex;
     gap: 9px;
 }
@@ -424,6 +587,10 @@ h1 span {
 .location-info span:first-child {
     color: var(--cyan);
 }
+
+/* =================================
+   POLLUTANT METRICS
+================================= */
 
 .metric-icon {
     color: var(--cyan);
@@ -478,7 +645,9 @@ h1 span {
     display: flex;
     justify-content: space-between;
     padding: 13px 0;
+
     border-bottom: 1px solid var(--border);
+
     font-size: 11px;
     color: var(--muted);
 }
@@ -487,6 +656,10 @@ h1 span {
     color: var(--text);
     font-size: 12px;
 }
+
+/* =================================
+   POLLUTION CHART
+================================= */
 
 .chart-heading {
     margin-top: 48px;
@@ -508,6 +681,10 @@ h1 span {
 .chart-card {
     min-height: 330px;
 }
+
+/* =================================
+   RESEARCH SECTION
+================================= */
 
 .research-section {
     margin-top: 52px;
@@ -555,34 +732,6 @@ h1 span {
     overflow-wrap: anywhere;
 }
 
-/* CURSOR GLOW */
-.cursor-glow {
-    position: fixed;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-
-    background: radial-gradient(
-        circle,
-        rgba(88, 166, 255, 0.24) 0%,
-        rgba(56, 139, 253, 0.13) 35%,
-        rgba(0, 180, 255, 0.05) 60%,
-        transparent 75%
-    );
-
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 4;
-
-    filter: blur(18px);
-    opacity: 0.9;
-
-    transition:
-        left 0.06s ease,
-        top 0.06s ease,
-        opacity 0.2s ease;
-}
-
 .research-list {
     display: grid;
     gap: 12px;
@@ -612,6 +761,10 @@ h1 span {
 .research-list strong {
     color: var(--text);
 }
+
+/* =================================
+   POLLUTANT GLOSSARY
+================================= */
 
 .glossary-card {
     margin-top: 17px;
@@ -644,14 +797,26 @@ h1 span {
     margin-top: 6px;
 }
 
+/* =================================
+   HEALTH INSIGHTS
+================================= */
+
 .health-card {
     display: flex;
     gap: 20px;
     align-items: flex-start;
+
     margin-top: 23px;
     padding: 25px;
+
     border: 1px solid rgba(63, 185, 80, 0.25);
-    background: linear-gradient(120deg, rgba(35, 134, 54, 0.14), rgba(22, 27, 34, 0.95));
+
+    background: linear-gradient(
+        120deg,
+        rgba(35, 134, 54, 0.14),
+        rgba(22, 27, 34, 0.95)
+    );
+
     border-radius: 18px;
 }
 
@@ -678,11 +843,16 @@ h1 span {
     margin-top: 12px;
 }
 
+/* =================================
+   FOOTER
+================================= */
+
 footer {
     border-top: 1px solid var(--border);
     margin-top: 55px;
     padding: 25px 0;
     text-align: center;
+
     color: var(--muted);
     font-size: 11px;
     line-height: 2;
@@ -698,6 +868,10 @@ footer .brand {
     color: #647991;
 }
 
+/* =================================
+   ANIMATIONS
+================================= */
+
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -709,6 +883,10 @@ footer .brand {
         transform: translateY(0);
     }
 }
+
+/* =================================
+   TABLET RESPONSIVE
+================================= */
 
 @media (max-width: 900px) {
     .dashboard-grid {
@@ -723,6 +901,10 @@ footer .brand {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+/* =================================
+   MOBILE RESPONSIVE
+================================= */
 
 @media (max-width: 600px) {
     .container {
@@ -813,7 +995,15 @@ footer .brand {
     body::after {
         display: none;
     }
+
+    .city-suggestions {
+        max-width: 100%;
+    }
 }
+
+/* =================================
+   REDUCED MOTION
+================================= */
 
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -825,4 +1015,3 @@ footer .brand {
         transition-duration: 0.01ms !important;
     }
 }
-
