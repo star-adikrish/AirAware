@@ -479,18 +479,32 @@ h1 span {
     overflow-wrap: anywhere;
 }
 
+
 .cursor-glow {
     position: fixed;
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 320px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(88, 166, 255, 0.17), transparent 70%);
+
+    background: radial-gradient(
+        circle,
+        rgba(88, 166, 255, 0.32) 0%,
+        rgba(56, 139, 253, 0.18) 30%,
+        rgba(0, 180, 255, 0.08) 55%,
+        transparent 75%
+    );
+
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 9999;
-    filter: blur(15px);
-    opacity: 0.65;
-    transition: left 0.08s ease, top 0.08s ease;
+
+    filter: blur(18px);
+    opacity: 0.95;
+
+    transition:
+        left 0.06s ease,
+        top 0.06s ease,
+        opacity 0.2s ease;
 }
 
 .research-list {
