@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0d1117">
 
-    <title>AirAware | Air Quality Intelligence</title>
+    <title>AirAware | City air quality</title>
 
     <link rel="stylesheet" href="../static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,9 +14,6 @@
 
 <body>
 
-    <div class="cursor-glow"></div>
-
-    
     <header class="navbar">
 
         <div class="brand">
@@ -26,7 +23,7 @@
 
         <div class="nav-status">
             <span class="status-dot"></span>
-            LIVE MONITORING
+            AIR QUALITY
         </div>
 
     </header>
@@ -38,20 +35,20 @@
         <section class="welcome">
 
             <div>
-                <p class="eyebrow">ENVIRONMENTAL INTELLIGENCE PLATFORM</p>
+                <p class="eyebrow">AIR QUALITY</p>
 
                 <h1>
-                    Understand the air<br>
-                    you <span>breathe.</span>
+                    What's the air<br>
+                    like <span>today?</span>
                 </h1>
 
                 <p class="subtitle">
-                    Real-time air quality insights for a healthier tomorrow.
+                    Search for a city to see what's in the air.
                 </p>
             </div>
 
             <div class="date-card">
-                <span>YOUR AIR QUALITY DASHBOARD</span>
+                <span>TODAY'S DATE</span>
                 <strong id="currentDate">Loading date...</strong>
             </div>
 
@@ -99,7 +96,7 @@
             </div>
 
             <p id="message" aria-live="polite">
-                Currently monitoring Bengaluru, India.
+                Showing Bengaluru, India.
             </p>
 
         </section>
@@ -109,13 +106,13 @@
         <section class="section-heading">
 
             <div>
-                <p class="eyebrow">OVERVIEW</p>
-                <h2>Air Quality Overview</h2>
+                <p class="eyebrow">RIGHT NOW</p>
+                <h2>Air quality</h2>
             </div>
 
             <span class="live-label">
                 <span class="status-dot" aria-hidden="true"></span>
-                LIVE DATA
+                LATEST READING
             </span>
 
         </section>
@@ -174,7 +171,7 @@
                         </div>
 
                         <p class="aqi-description" id="aqiDescription">
-                            Fetching air quality data.
+                            Getting air quality data...
                         </p>
 
                     </div>
@@ -284,8 +281,8 @@
         <section class="section-heading chart-heading">
 
             <div>
-                <p class="eyebrow">DATA ANALYTICS</p>
-                <h2>Pollution Analysis</h2>
+                <p class="eyebrow">OVER TIME</p>
+                <h2>PM2.5 history</h2>
             </div>
 
             <span class="chart-caption">
@@ -298,7 +295,7 @@
         <section class="card chart-card">
 
             <div class="card-heading">
-                <span>PM2.5 HOURLY TREND</span>
+                <span>PM2.5 BY HOUR</span>
                 <span class="chart-unit">µg/m³</span>
             </div>
 
@@ -315,12 +312,12 @@
             <div class="section-heading research-heading">
 
                 <div>
-                    <p class="eyebrow">FOR DEEP RESEARCH</p>
-                    <h2 id="researchHeading">Read the signal</h2>
+                    <p class="eyebrow">MORE INFO</p>
+                    <h2 id="researchHeading">About this reading</h2>
                 </div>
 
                 <span class="chart-caption">
-                    Context for every measurement
+                    Where the numbers come from
                 </span>
 
             </div>
@@ -332,7 +329,7 @@
                 <article class="research-card">
 
                     <div class="card-heading">
-                        <span>OBSERVATION CONTEXT</span>
+                        <span>LOCATION AND TIME</span>
                         <span class="metric-icon" aria-hidden="true">⌁</span>
                     </div>
 
@@ -367,7 +364,7 @@
                 <article class="research-card methodology-card">
 
                     <div class="card-heading">
-                        <span>INTERPRETATION NOTES</span>
+                        <span>WHAT IT MEANS</span>
                         <span class="metric-icon" aria-hidden="true">i</span>
                     </div>
 
@@ -375,26 +372,24 @@
 
                         <li>
                             <strong>AQI:</strong>
-                            US EPA-style index from 0 to 500; higher values
-                            indicate greater health concern.
+                            AQI goes from 0 to 500. Higher numbers mean the air
+                            may be worse for your health.
                         </li>
 
                         <li>
                             <strong>Particles:</strong>
-                            PM2.5 and PM10 are reported as mass concentration
-                            in µg/m³.
+                            PM2.5 and PM10 are tiny particles in the air.
                         </li>
 
                         <li>
                             <strong>Gases:</strong>
-                            CO, NO₂, SO₂, and ozone readings are reported
-                            in µg/m³ by the source API.
+                            The gases are measured in µg/m³.
                         </li>
 
                         <li>
                             <strong>Scope:</strong>
-                            These are modelled hourly estimates, not a
-                            substitute for a certified local monitor.
+                            These are estimates from an API, not readings from
+                            a local air monitor.
                         </li>
 
                     </ul>
@@ -403,40 +398,6 @@
 
             </div>
 
-
-            
-            <article class="research-card glossary-card">
-
-                <div class="card-heading">
-                    <span>POLLUTANT GLOSSARY</span>
-                    <span class="chart-unit">WHY IT MATTERS</span>
-                </div>
-
-                <div class="glossary-grid">
-
-                    <div>
-                        <strong>PM2.5</strong>
-                        <span>Fine particles that can travel deep into the lungs.</span>
-                    </div>
-
-                    <div>
-                        <strong>PM10</strong>
-                        <span>Larger inhalable particles from dust, roads, and industry.</span>
-                    </div>
-
-                    <div>
-                        <strong>NO₂</strong>
-                        <span>Traffic and combustion gas linked to airway irritation.</span>
-                    </div>
-
-                    <div>
-                        <strong>O₃</strong>
-                        <span>Reactive ground-level ozone formed in sunlight.</span>
-                    </div>
-
-                </div>
-
-            </article>
 
         </section>
 
@@ -448,7 +409,7 @@
 
             <div>
 
-                <p class="eyebrow">HEALTH INSIGHTS</p>
+                <p class="eyebrow">QUICK TIP</p>
 
                 <h3 id="healthTitle">
                     Your air quality update
@@ -475,7 +436,7 @@
             </div>
 
             <p>
-                Making environmental data easier to understand.
+                A simple way to check air quality in different cities.
             </p>
 
             <p class="data-source">
@@ -491,4 +452,5 @@
     <script src="../static/js/script.js"></script>
 
 </body>
+
 </html>
