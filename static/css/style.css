@@ -302,7 +302,7 @@ h1 span {
     box-shadow: none !important;
     border-radius: 0;
 
-    color: white;
+    color: var(--text);
     font: inherit;
     font-size: 14px;
 }
