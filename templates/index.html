@@ -4,27 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d1117">
+    <meta name="theme-color" content="#f5f6f1">
 
     <title>AirAware | City air quality</title>
 
-    <link rel="stylesheet" href="../static/css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 </head>
 
 <body>
 
     <header class="navbar">
 
-        <div class="brand">
-            <span class="brand-icon" aria-hidden="true">◉</span>
+        <a class="brand" href="#" aria-label="AirAware home">
+            <span class="brand-icon" aria-hidden="true"><span></span></span>
             Air<span>Aware</span>
-        </div>
+        </a>
 
-        <div class="nav-status">
-            <span class="status-dot"></span>
-            AIR QUALITY
-        </div>
+        <a class="nav-link" href="{{ url_for('about') }}">About me <span aria-hidden="true">↗</span></a>
 
     </header>
 
@@ -35,21 +32,22 @@
         <section class="welcome">
 
             <div>
-                <p class="eyebrow">AIR QUALITY</p>
+                <p class="eyebrow">A CLEARER READ ON YOUR CITY</p>
 
                 <h1>
-                    What's the air<br>
-                    like <span>today?</span>
+                    Know what<br>
+                    you're <span>breathing.</span>
                 </h1>
 
                 <p class="subtitle">
-                    Search for a city to see what's in the air.
+                    A thoughtful look at the air around you, wherever the day takes you.
                 </p>
             </div>
 
             <div class="date-card">
-                <span>TODAY'S DATE</span>
+                <span>YOUR DAILY AIR REPORT</span>
                 <strong id="currentDate">Loading date...</strong>
+                <span class="date-note"><span class="status-dot" aria-hidden="true"></span> A new reading, whenever you need it</span>
             </div>
 
         </section>
@@ -66,7 +64,7 @@
                         Search for a city
                     </label>
 
-                    <span aria-hidden="true">⌕</span>
+                    <span class="search-icon" aria-hidden="true">⌕</span>
 
                     <input
                         id="cityInput"
@@ -85,6 +83,10 @@
 
                 </form>
 
+                <button class="location-button" id="locationButton" type="button">
+                    <span aria-hidden="true">◎</span> Use my location
+                </button>
+
                 
                 <div
                     id="citySuggestions"
@@ -99,6 +101,14 @@
                 Showing Bengaluru, India.
             </p>
 
+            <div class="quick-cities" aria-label="Popular cities">
+                <span>EXPLORE</span>
+                <button type="button" data-city="Bengaluru">Bengaluru</button>
+                <button type="button" data-city="Delhi">Delhi</button>
+                <button type="button" data-city="Mumbai">Mumbai</button>
+                <button type="button" data-city="London">London</button>
+            </div>
+
         </section>
 
 
@@ -112,7 +122,7 @@
 
             <span class="live-label">
                 <span class="status-dot" aria-hidden="true"></span>
-                LATEST READING
+                LIVE CITY READING
             </span>
 
         </section>
@@ -126,7 +136,7 @@
 
                 <div class="card-heading">
                     <span>US AIR QUALITY INDEX</span>
-                    <span class="info-icon">i</span>
+                    <span class="info-icon" title="The US AQI scale runs from 0 to 500.">i</span>
                 </div>
 
                 <div class="aqi-content">
@@ -286,7 +296,7 @@
             </div>
 
             <span class="chart-caption">
-                Latest hourly measurements
+            Hourly PM2.5, local time
             </span>
 
         </section>
@@ -295,8 +305,12 @@
         <section class="card chart-card">
 
             <div class="card-heading">
-                <span>PM2.5 BY HOUR</span>
-                <span class="chart-unit">µg/m³</span>
+                <span>PM2.5 BY HOUR <span class="chart-unit">· µg/m³</span></span>
+                <div class="chart-ranges" role="group" aria-label="Chart time range">
+                    <button type="button" data-range="12" aria-pressed="false">12h</button>
+                    <button type="button" data-range="24" aria-pressed="true">24h</button>
+                    <button type="button" data-range="48" aria-pressed="false">48h</button>
+                </div>
             </div>
 
             <div class="chart-container">
@@ -307,7 +321,7 @@
 
 
         
-        <section class="research-section" aria-labelledby="researchHeading">
+        <section class="research-section" id="about" aria-labelledby="researchHeading">
 
             <div class="section-heading research-heading">
 
@@ -317,7 +331,7 @@
                 </div>
 
                 <span class="chart-caption">
-                    Where the numbers come from
+                    How to read this report
                 </span>
 
             </div>
@@ -432,19 +446,15 @@
         <footer>
 
             <div class="brand">
-                Air<span>Aware</span>
+                Air<span>Aware by a high school student</span>
             </div>
-
-            <p>
-                A simple way to check air quality in different cities.
-            </p>
         </footer>
 
     </main>
 
 
     
-    <script src="../static/js/script.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 
 </body>
 

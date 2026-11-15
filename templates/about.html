@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f6f1">
+    <meta name="description" content="Meet the creator of AirAware and learn about the project.">
+    <title>About me | AirAware</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header class="navbar">
+        <a class="brand" href="{{ url_for('home') }}" aria-label="AirAware home">
+            <span class="brand-icon" aria-hidden="true"><span></span></span>
+            Air<span>Aware</span>
+        </a>
+        <a class="nav-link" href="{{ url_for('home') }}">Explore air quality <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main class="container about-page">
+        <section class="about-hero">
+            <div class="about-copy">
+                <p class="eyebrow">THE PERSON BEHIND THE PROJECT</p>
+                <h1>Hi, I'm <span>Krishna.</span></h1>
+                <p class="about-lede">
+                    I built AirAware to make city air quality easier to explore
+                    and understand.
+                </p>
+            </div>
+            <div class="about-mark" aria-hidden="true">
+                <span class="about-mark-ring"></span>
+                <span class="about-mark-center"></span>
+            </div>
+        </section>
+
+        <section class="about-content" aria-labelledby="aboutProjectHeading">
+            <article class="about-card about-story">
+                <p class="eyebrow">A SMALL PROJECT WITH A CLEAR PURPOSE</p>
+                <h2 id="aboutProjectHeading">Useful information, without the noise.</h2>
+                <p>
+                    AirAware brings a city's AQI, particle levels, and common
+                    pollutants together in one place. Search for a city, see
+                    what the latest estimates say, and follow the PM2.5 trend
+                    through the day.
+                </p>
+                <p>
+                    The goal is simple: make the numbers easier to read while
+                    being clear about what they are—API estimates, not readings
+                    from a local air monitor.
+                </p>
+                <a class="about-cta" href="{{ url_for('home') }}">
+                    Explore the dashboard <span aria-hidden="true">→</span>
+                </a>
+            </article>
+
+            <aside class="about-card about-details" aria-label="About AirAware">
+                <p class="eyebrow">BUILT TO BE</p>
+                <ul>
+                    <li>
+                        <span class="about-detail-number">01</span>
+                        <span><strong>Clear</strong><small>Key readings, easy to scan.</small></span>
+                    </li>
+                    <li>
+                        <span class="about-detail-number">02</span>
+                        <span><strong>Practical</strong><small>City search and hourly trends.</small></span>
+                    </li>
+                    <li>
+                        <span class="about-detail-number">03</span>
+                        <span><strong>Transparent</strong><small>Estimates, clearly identified.</small></span>
+                    </li>
+                </ul>
+                <div class="about-source">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    Air-quality data by Open-Meteo
+                </div>
+            </aside>
+        </section>
+
+        <footer>
+            <a class="brand" href="{{ url_for('home') }}">
+                Air<span>Aware</span>
+            </a>
+            <p>A clearer read on your city.</p>
+        </footer>
+    </main>
+</body>
+</html>

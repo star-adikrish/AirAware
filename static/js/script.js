@@ -3,8 +3,11 @@ const cityInput = document.getElementById("cityInput");
 const searchButton = document.getElementById("searchButton");
 const searchForm = document.getElementById("searchForm");
 const message = document.getElementById("message");
+const locationButton = document.getElementById("locationButton");
 
 let pollutionChart;
+let chartData;
+let chartRange = 24;
 let requestSequence = 0;
 
 let currentLocation = {
@@ -70,8 +73,13 @@ function getAQIInfo(aqi) {
 
 function setLoading(isLoading) {
     searchButton.disabled = isLoading;
-    searchButton.textContent = isLoading ? "Loading..." : "Search";
+    locationButton.disabled = isLoading;
+    searchButton.textContent = isLoading ? "Loading…" : "Search";
     searchForm.setAttribute("aria-busy", String(isLoading));
+}
+
+function formatLocation(location) {
+    return [location.name, location.country].filter(Boolean).join(", ");
 }
 
 async function searchCity(city) {
@@ -163,8 +171,7 @@ async function loadAirQuality(
 
         displayData(data);
 
-        message.textContent =
-            `Monitoring ${currentLocation.name}, ${currentLocation.country}.`;
+        message.textContent = `Monitoring ${formatLocation(currentLocation)}.`;
 
     } catch (error) {
         if (requestId === requestSequence) {
@@ -274,10 +281,10 @@ function displayData(data) {
     updateAQIGauge(aqi, info.color);
 
     document.getElementById("locationName").textContent =
-        `${currentLocation.name}, ${currentLocation.country}`;
+        formatLocation(currentLocation);
 
     document.getElementById("researchLocation").textContent =
-        `${currentLocation.name}, ${currentLocation.country}`;
+        formatLocation(currentLocation);
 
     document.getElementById("researchCoordinates").textContent =
         `${Number(currentLocation.latitude).toFixed(4)}, ${Number(currentLocation.longitude).toFixed(4)}`;
@@ -315,6 +322,7 @@ function displayData(data) {
             ? info.advice
             : "Health recommendations are unavailable without an AQI reading.";
 
+    chartData = data;
     updateChart(data);
 }
 
@@ -359,8 +367,9 @@ function updateChart(data) {
 
     }, 0);
 
-    const start = Math.max(0, currentIndex - 6);
-    const end = Math.min(times.length, currentIndex + 7);
+    const halfRange = chartRange / 2;
+    const start = Math.max(0, currentIndex - halfRange);
+    const end = Math.min(times.length, currentIndex + halfRange + 1);
 
     for (let i = start; i < end; i++) {
         const value = toFiniteNumber(values[i]);
@@ -388,13 +397,14 @@ function updateChart(data) {
             datasets: [{
                 label: "PM2.5",
                 data: readings,
-                borderColor: "#58a6ff",
-                backgroundColor: "rgba(88, 166, 255, 0.12)",
+                borderColor: "#397d5c",
+                backgroundColor: "rgba(90, 139, 103, 0.12)",
                 fill: true,
-                tension: 0.4,
+                tension: 0.32,
                 borderWidth: 2,
-                pointRadius: 3,
-                pointBackgroundColor: "#5ce0a0"
+                pointRadius: 2,
+                pointHoverRadius: 4,
+                pointBackgroundColor: "#397d5c"
             }]
         },
 
@@ -415,7 +425,10 @@ function updateChart(data) {
                     },
 
                     ticks: {
-                        color: "#8b949e"
+                        color: "#78827c",
+                        maxRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 8
                     }
                 },
 
@@ -423,11 +436,11 @@ function updateChart(data) {
                     beginAtZero: true,
 
                     grid: {
-                        color: "rgba(145, 162, 184, 0.12)"
+                        color: "rgba(120, 130, 124, 0.14)"
                     },
 
                     ticks: {
-                        color: "#8b949e"
+                        color: "#78827c"
                     }
                 }
             }
@@ -440,36 +453,77 @@ searchForm.addEventListener("submit", (event) => {
     searchCity(cityInput.value);
 });
 
+document.querySelectorAll("[data-city]").forEach((button) => {
+    button.addEventListener("click", () => {
+        cityInput.value = button.dataset.city;
+        searchCity(button.dataset.city);
+    });
+});
+
+locationButton.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        message.textContent = "Location lookup is not available in this browser.";
+        return;
+    }
+
+    const requestId = ++requestSequence;
+    message.textContent = "Finding your location…";
+    locationButton.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+            if (requestId !== requestSequence) {
+                return;
+            }
+
+            loadAirQuality({
+                name: "Your location",
+                country: "",
+                latitude: coords.latitude,
+                longitude: coords.longitude
+            });
+        },
+        (error) => {
+            if (requestId !== requestSequence) {
+                return;
+            }
+
+            const details = {
+                1: "Location permission was denied. You can still search for a city.",
+                2: "Your location could not be determined. Try searching for a city.",
+                3: "Location lookup timed out. Please try again."
+            };
+            message.textContent = details[error.code] || "Unable to find your location.";
+            locationButton.disabled = false;
+        },
+        { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    );
+});
+
+document.querySelectorAll("[data-range]").forEach((button) => {
+    button.addEventListener("click", () => {
+        chartRange = Number(button.dataset.range);
+        document.querySelectorAll("[data-range]").forEach((rangeButton) => {
+            rangeButton.setAttribute(
+                "aria-pressed",
+                String(rangeButton === button)
+            );
+        });
+
+        if (chartData) {
+            updateChart(chartData);
+        }
+    });
+});
+
 document.getElementById("currentDate").textContent =
-    new Date().toLocaleDateString("en-IN", {
+    new Date().toLocaleDateString(undefined, {
         day: "numeric",
         month: "long",
         year: "numeric"
     });
 
 loadAirQuality();
-
-const cursor = document.querySelector(".cursor-glow");
-
-document.addEventListener("mousemove", (event) => {
-    const x = event.clientX;
-    const y = event.clientY;
-
-    if (cursor) {
-        cursor.style.left = `${x}px`;
-        cursor.style.top = `${y}px`;
-    }
-
-    document.documentElement.style.setProperty(
-        "--mouse-x",
-        `${x}px`
-    );
-
-    document.documentElement.style.setProperty(
-        "--mouse-y",
-        `${y}px`
-    );
-});
 
 const citySuggestions = document.getElementById("citySuggestions");
 
@@ -484,7 +538,7 @@ if (cityInput && citySuggestions) {
 
         if (query.length < 2) {
             citySuggestions.innerHTML = "";
-            citySuggestions.style.display = "none";
+            citySuggestions.classList.remove("show");
             suggestionRequest++;
             return;
         }
@@ -515,7 +569,7 @@ if (cityInput && citySuggestions) {
             citySuggestions.innerHTML = "";
 
             if (!data.results || data.results.length === 0) {
-                citySuggestions.style.display = "none";
+                citySuggestions.classList.remove("show");
                 return;
             }
 
@@ -530,18 +584,18 @@ if (cityInput && citySuggestions) {
                 suggestion.addEventListener("click", () => {
                     cityInput.value = city.name;
                     citySuggestions.innerHTML = "";
-                    citySuggestions.style.display = "none";
+                    citySuggestions.classList.remove("show");
                     searchCity(city.name);
                 });
 
                 citySuggestions.appendChild(suggestion);
             });
 
-            citySuggestions.style.display = "block";
+            citySuggestions.classList.add("show");
 
         } catch (error) {
             console.error("City suggestions error:", error);
-            citySuggestions.style.display = "none";
+            citySuggestions.classList.remove("show");
         }
     }
 
@@ -550,7 +604,7 @@ if (cityInput && citySuggestions) {
             !citySuggestions.contains(event.target) &&
             !cityInput.contains(event.target)
         ) {
-            citySuggestions.style.display = "none";
+            citySuggestions.classList.remove("show");
         }
     });
 }
