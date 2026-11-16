@@ -8,8 +8,17 @@ AirAware is a small Flask project I made while learning web development. It uses
 - PM2.5 and PM10 tracking
 - CO, NO2, SO2, and ozone readings
 - Hourly PM2.5 trend chart
+<<<<<<< HEAD
 - Works on phones too
 
+=======
+- Mobile-friendly dashboard
+## AI Declaration 
+I did use AI as i was getting few errors in Java and for debugging 
+Added comments by AI so its easier for the reviewer
+Im new to a few concepts for which i used AI but now I don't need to rely on AI
+I Found lots of issues which i wasn't able to fix so i used AI at that moment but after the unship i have learnt the debugging for this website
+>>>>>>> 9044d88dae5b6408d335a11542ba440d57a770e7
 ## Run locally
 
 ```bash
