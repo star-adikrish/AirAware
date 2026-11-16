@@ -21,8 +21,8 @@ function getAQIInfo(aqi) {
     if (aqi <= 50) {
         return {
             category: "Good",
-            description: "Air quality is satisfactory.",
-            advice: "Air quality is good. Outdoor activities can generally continue as normal.",
+            description: "The air is good right now.",
+            advice: "Looks good for most people to be outside.",
             color: "#5ce0a0"
         };
     }
@@ -30,8 +30,8 @@ function getAQIInfo(aqi) {
     if (aqi <= 100) {
         return {
             category: "Moderate",
-            description: "Acceptable air quality.",
-            advice: "Air quality is generally acceptable. People unusually sensitive to pollution may wish to limit prolonged outdoor exertion.",
+            description: "It's okay for most people.",
+            advice: "If pollution usually bothers you, you might want to take it easy outside.",
             color: "#d7df5a"
         };
     }
@@ -39,8 +39,8 @@ function getAQIInfo(aqi) {
     if (aqi <= 150) {
         return {
             category: "Unhealthy for Sensitive Groups",
-            description: "Some people may be affected.",
-            advice: "Sensitive groups, including people with asthma, may benefit from reducing prolonged or strenuous outdoor activity.",
+            description: "Some people may notice the pollution.",
+            advice: "If you have asthma or are sensitive to pollution, consider spending less time doing hard exercise outside.",
             color: "#f6a44a"
         };
     }
@@ -48,8 +48,8 @@ function getAQIInfo(aqi) {
     if (aqi <= 200) {
         return {
             category: "Unhealthy",
-            description: "Health effects may occur.",
-            advice: "Consider reducing prolonged outdoor exertion, particularly if you are sensitive to air pollution.",
+            description: "The air could affect your health.",
+            advice: "It may be a good idea to cut back on long or intense outdoor activity, especially if pollution affects you.",
             color: "#ef5a55"
         };
     }
@@ -57,16 +57,16 @@ function getAQIInfo(aqi) {
     if (aqi <= 300) {
         return {
             category: "Very Unhealthy",
-            description: "Health alert: increased risk.",
-            advice: "Reduce outdoor exertion and pay attention to local air-quality guidance.",
+            description: "Health effects are more likely.",
+            advice: "Try to limit time and exercise outside, and check local air-quality advice.",
             color: "#a85bce"
         };
     }
 
     return {
         category: "Hazardous",
-        description: "Serious health warning.",
-        advice: "Avoid prolonged outdoor exertion and follow local public-health advice.",
+        description: "The air is at a dangerous level.",
+        advice: "Stay indoors if you can and follow advice from your local health authorities.",
         color: "#a83b55"
     };
 }

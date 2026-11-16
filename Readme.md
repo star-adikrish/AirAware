@@ -1,14 +1,14 @@
 # AirAware
 
-AirAware is a Flask app that shows live air quality data for cities using the Open-Meteo API. It displays AQI, PM2.5, PM10, and major pollutants in a simple dashboard.
+AirAware is a small Flask project I made while learning web development. It uses Open-Meteo to show estimated air quality for different cities, including AQI, PM2.5, PM10, and a few gases.
 
 ## Features
 
-- Live AQI and pollution overview
+- Current AQI and pollutant levels
 - PM2.5 and PM10 tracking
 - CO, NO2, SO2, and ozone readings
 - Hourly PM2.5 trend chart
-- Mobile-friendly dashboard
+- Works on phones too
 
 ## Run locally
 
@@ -47,4 +47,4 @@ http://YOUR_COMPUTER_IP:5000
 - The app needs internet access to fetch live Open-Meteo data.
 - Use `FLASK_DEBUG=true` only for local development.
 
-Stay aware. Breathe better.
+Hope you find it useful!
