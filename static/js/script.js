@@ -283,17 +283,6 @@ function displayData(data) {
     document.getElementById("locationName").textContent =
         formatLocation(currentLocation);
 
-    document.getElementById("researchLocation").textContent =
-        formatLocation(currentLocation);
-
-    document.getElementById("researchCoordinates").textContent =
-        `${Number(currentLocation.latitude).toFixed(4)}, ${Number(currentLocation.longitude).toFixed(4)}`;
-
-    document.getElementById("observationTime").textContent =
-        current.time
-            ? current.time.replace("T", " ")
-            : "Unavailable";
-
     document.getElementById("pm25").textContent =
         formatValue(current.pm2_5);
 

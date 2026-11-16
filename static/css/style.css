@@ -707,34 +707,12 @@ h1 span {
 
 .research-grid {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 14px;
 }
 
 .research-card {
     padding: 21px;
-}
-
-.research-facts {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 19px 14px;
-}
-
-.research-facts dt {
-    color: var(--muted);
-    font-size: 9px;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-}
-
-.research-facts dd {
-    margin-top: 5px;
-    color: var(--ink);
-    font-size: 11px;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
 }
 
 .research-list {
