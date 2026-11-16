@@ -9,7 +9,11 @@ AirAware is a Flask app that shows live air quality data for cities using the Op
 - CO, NO2, SO2, and ozone readings
 - Hourly PM2.5 trend chart
 - Mobile-friendly dashboard
-
+## AI Declaration 
+I did use AI as i was getting few errors in Java and for debugging 
+Added comments by AI so its easier for the reviewer
+Im new to a few concepts for which i used AI but now I don't need to rely on AI
+I Found lots of issues which i wasn't able to fix so i used AI at that moment but after the unship i have learnt the debugging for this website
 ## Run locally
 
 ```bash
