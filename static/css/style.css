@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
 :root {
     color-scheme: light;
-    --paper: #f5f6f1;
+    --paper: #f4f8fa;
     --surface: #fff;
-    --ink: #1d2925;
-    --muted: #78827c;
-    --line: #e5e9e1;
-    --green: #2f7657;
-    --green-dark: #193f32;
-    --green-pale: #e9f1e9;
+    --ink: #24323a;
+    --muted: #6d7a82;
+    --line: #dce6eb;
+    --green: #167da8;
+    --green-dark: #155979;
+    --green-pale: #e8f5fb;
     --shadow: 0 12px 32px rgba(31, 51, 41, 0.055);
 }
 
@@ -139,7 +137,7 @@ a {
 
 .eyebrow {
     margin-bottom: 13px;
-    color: #a7c8b3;
+    color: #c5e7f5;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.8px;
@@ -159,7 +157,7 @@ h1 {
 }
 
 h1 span {
-    color: #c3d9ae;
+    color: #a8dced;
 }
 
 .subtitle {
@@ -184,7 +182,7 @@ h1 span {
 }
 
 .date-card > span:first-child {
-    color: #a7c8b3;
+    color: #c5e7f5;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.4px;
@@ -210,7 +208,7 @@ h1 span {
     height: 7px;
     flex: 0 0 7px;
     border-radius: 50%;
-    background: #add9a6;
+    background: #83c8e5;
 }
 
 .search-section {
@@ -238,8 +236,8 @@ h1 span {
 }
 
 .search-box:focus-within {
-    border-color: #83aa91;
-    box-shadow: 0 0 0 3px rgba(47, 118, 87, 0.09);
+    border-color: #78bddb;
+    box-shadow: 0 0 0 3px rgba(22, 125, 168, 0.09);
 }
 
 .search-icon {
@@ -276,7 +274,7 @@ h1 span {
 }
 
 .search-box button:hover {
-    background: #245f45;
+    background: #116487;
 }
 
 .search-box button:active,
@@ -401,7 +399,7 @@ h1 span {
 }
 
 .quick-cities button:hover {
-    border-color: #b6cbbb;
+    border-color: #a6d3e6;
     background: var(--green-pale);
     color: var(--green-dark);
 }
@@ -437,7 +435,7 @@ h1 span {
 
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.9fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
 }
 
@@ -509,7 +507,7 @@ h1 span {
 }
 
 .gauge-track {
-    stroke: #edf0ea;
+    stroke: #e8eef1;
 }
 
 .gauge-progress {
@@ -761,7 +759,7 @@ h1 span {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #80a58a;
+    background: #65b5d4;
     content: "";
 }
 
@@ -770,14 +768,14 @@ h1 span {
 }
 
 .health-card {
-    margin-top: 15px;
+    margin-top: 0;
     padding: 21px 23px;
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    border: 1px solid #dce8da;
+    border: 1px solid #d7eaf3;
     border-radius: 9px;
-    background: #edf4eb;
+    background: #eaf6fb;
 }
 
 .health-icon {
@@ -803,7 +801,7 @@ h1 span {
 }
 
 .health-card p:not(.eyebrow) {
-    color: #58675e;
+    color: #526b78;
     font-size: 11px;
     line-height: 1.6;
 }
@@ -850,7 +848,7 @@ footer .brand {
 }
 
 .about-hero .eyebrow {
-    color: #a7c8b3;
+    color: #c5e7f5;
 }
 
 .about-hero h1 {
@@ -858,7 +856,7 @@ footer .brand {
 }
 
 .about-hero h1 span {
-    color: #c3d9ae;
+    color: #a8dced;
 }
 
 .about-lede {
@@ -896,7 +894,7 @@ footer .brand {
 .about-mark-ring {
     width: 50px;
     height: 50px;
-    border: 1px solid #c3d9ae;
+    border: 1px solid #a8dced;
     border-radius: 50% 50% 50% 8px;
     transform: rotate(-35deg);
 }
@@ -906,7 +904,7 @@ footer .brand {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #c3d9ae;
+    background: #a8dced;
 }
 
 .about-content {
@@ -1009,17 +1007,13 @@ footer .brand {
 
 button:focus-visible,
 a:focus-visible {
-    outline: 2px solid #629777;
+    outline: 2px solid #2388b2;
     outline-offset: 3px;
 }
 
 @media (max-width: 900px) {
     .dashboard-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .aqi-card {
-        grid-column: span 2;
     }
 
     .aqi-content {
@@ -1204,4 +1198,109 @@ a:focus-visible {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
+}
+
+body {
+    background: #f6f7f4;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.brand,
+.aqi-number,
+.aqi-category,
+.metric-value strong,
+.about-detail-number {
+    font-family: inherit;
+    letter-spacing: normal;
+}
+
+.navbar {
+    height: 62px;
+    background: #fff;
+}
+
+.container {
+    margin-top: 25px;
+}
+
+.welcome,
+.about-hero {
+    min-height: 0;
+    padding: 32px 38px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #e5f3f9;
+    color: var(--ink);
+}
+
+.welcome::after,
+.about-mark {
+    display: none;
+}
+
+.welcome .eyebrow,
+.about-hero .eyebrow {
+    color: var(--green);
+    letter-spacing: 0.8px;
+}
+
+.welcome h1 span,
+.about-hero h1 span {
+    color: var(--green);
+}
+
+.subtitle,
+.about-lede {
+    color: var(--muted);
+}
+
+.date-card {
+    border-color: var(--line);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--ink);
+}
+
+.date-card > span:first-child {
+    color: var(--green);
+    letter-spacing: 0.5px;
+}
+
+.date-card .date-note {
+    color: var(--muted);
+}
+
+.card,
+.research-card,
+.about-card,
+.search-box,
+.city-suggestions,
+.location-button,
+.health-card {
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.card,
+.research-card,
+.about-card {
+    border-color: var(--line);
+}
+
+.card-heading,
+.eyebrow,
+.live-label,
+.quick-cities > span {
+    letter-spacing: 0.5px;
+}
+
+.quick-cities button {
+    border-radius: 4px;
+}
+
+.health-card {
+    background: #eaf6fb;
 }

@@ -21,11 +21,11 @@
     <main class="container about-page">
         <section class="about-hero">
             <div class="about-copy">
-                <p class="eyebrow">THE PERSON BEHIND THE PROJECT</p>
+                <p class="eyebrow">THE AQI PROJECT</p>
                 <h1>Hi, I'm <span>Krishna.</span></h1>
                 <p class="about-lede">
                     I made AirAware as a project to learn web development
-                    and to make it easier to check the air in different cities.
+                    and to make it easier to not only check the aqi but also for the people who have aasthama.
                     I'm still learning, so it's a work in progress. Hope you find it useful!
                 </p>
             </div>
@@ -37,16 +37,16 @@
 
         <section class="about-content" aria-labelledby="aboutProjectHeading">
             <article class="about-card about-story">
-                <p class="eyebrow">WHY I MADE THIS</p>
+                <p class="eyebrow">WHY I MADE IT</p>
                 <h2 id="aboutProjectHeading">Air quality, all in one place.</h2>
                 <p>
                     You can search for a city and see its AQI, particles, gases,
                     and PM2.5 levels. I wanted the main numbers to be easy to find
-                    without jumping between different pages.
-                </p>
-                <p>
-                    The data comes from Open-Meteo, so it's an estimate, not a
-                    reading from a monitor right outside your house.
+                    without jumping between different pages.One major reason also was that i noticed
+                    many people who have asthma or other respiratory issues struggle to find accurate aqi,
+                    but i know it was not possible to get accurate aqi from local sensors, so i made this project to help them get accurate aqi.
+
+
                 </p>
                 <a class="about-cta" href="{{ url_for('home') }}">
                     Explore the dashboard <span aria-hidden="true">→</span>
@@ -54,7 +54,7 @@
             </article>
 
             <aside class="about-card about-details" aria-label="About AirAware">
-                <p class="eyebrow">BUILT TO BE</p>
+                <p class="eyebrow">Features</p>
                 <ul>
                     <li>
                         <span class="about-detail-number">01</span>
@@ -71,7 +71,7 @@
                 </ul>
                 <div class="about-source">
                     <span class="status-dot" aria-hidden="true"></span>
-                    Air-quality data by Open-Meteo
+                    Air-quality data by weatherapi.com
                 </div>
             </aside>
         </section>

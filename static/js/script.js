@@ -397,14 +397,14 @@ function updateChart(data) {
             datasets: [{
                 label: "PM2.5",
                 data: readings,
-                borderColor: "#397d5c",
+                borderColor: "#167da8",
                 backgroundColor: "rgba(90, 139, 103, 0.12)",
                 fill: true,
                 tension: 0.32,
                 borderWidth: 2,
                 pointRadius: 2,
                 pointHoverRadius: 4,
-                pointBackgroundColor: "#397d5c"
+                pointBackgroundColor: "#167da8"
             }]
         },
 
