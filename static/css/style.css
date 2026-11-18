@@ -1136,6 +1136,407 @@ a:focus-visible {
     }
 }
 
+body {
+    background: #fff;
+    color: #222;
+    font: 16px/1.5 Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+    height: auto;
+    min-height: 48px;
+    padding: 8px max(calc((100vw - 900px) / 2), 16px);
+    background: #fff;
+}
+
+.brand {
+    gap: 0;
+    font: bold 20px Arial, Helvetica, sans-serif;
+    letter-spacing: 0;
+}
+
+.brand > span:last-child {
+    margin-left: 0;
+    color: inherit;
+}
+
+.brand-icon,
+.search-icon,
+.info-icon,
+.metric-icon,
+.health-icon,
+.about-mark,
+.location-button span,
+.location-info span:first-child,
+.scale-gradient,
+.scale-labels {
+    display: none;
+}
+
+.nav-link,
+.about-cta {
+    color: #0645ad;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.nav-link span {
+    display: none;
+}
+
+.container {
+    width: min(900px, calc(100% - 32px));
+    margin: 24px auto;
+}
+
+.welcome,
+.about-hero {
+    min-height: 0;
+    padding: 0;
+    display: block;
+    border: 0;
+    background: transparent;
+}
+
+h1,
+h2,
+h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0;
+}
+
+.welcome h1,
+.about-hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.welcome h1 span,
+.about-hero h1 span {
+    color: inherit;
+}
+
+.subtitle,
+.about-lede {
+    max-width: none;
+    margin-top: 4px;
+    color: #444;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.date-card {
+    width: auto;
+    margin-top: 5px;
+    padding: 0;
+    display: block;
+    border: 0;
+    background: transparent;
+    color: #555;
+    font-size: 14px;
+}
+
+.date-card strong {
+    font: inherit;
+}
+
+.search-section {
+    margin: 20px 0;
+}
+
+.search-wrapper {
+    width: 100%;
+}
+
+.search-box {
+    min-height: 0;
+    padding: 0;
+    gap: 6px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.search-box input {
+    min-height: 36px;
+    padding: 6px 8px;
+    border: 1px solid #888;
+    background: #fff;
+    font-size: 16px;
+}
+
+.search-box button,
+.location-button {
+    min-height: 36px;
+    padding: 5px 10px;
+    border: 1px solid #888;
+    border-radius: 0;
+    background: #eee;
+    color: #222;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.location-button {
+    margin-top: 8px;
+}
+
+#message {
+    margin-top: 7px;
+    color: #444;
+    font-size: 14px;
+}
+
+.quick-cities {
+    margin-top: 8px;
+}
+
+.quick-cities > span {
+    display: none;
+}
+
+.quick-cities button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #0645ad;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.section-heading,
+.research-section {
+    margin: 22px 0 4px;
+}
+
+.section-heading .eyebrow,
+.eyebrow {
+    display: none;
+}
+
+.section-heading h2 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.dashboard-grid {
+    display: block;
+    border: 0;
+}
+
+.card,
+.research-card,
+.about-card,
+.health-card {
+    min-width: 0;
+    margin: 0;
+    padding: 12px 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.card-heading {
+    color: #222;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+}
+
+.aqi-content {
+    min-height: 0;
+    margin: 8px 0;
+    gap: 14px;
+}
+
+.aqi-gauge {
+    width: auto;
+    height: auto;
+    flex: 0 0 auto;
+}
+
+.aqi-gauge svg {
+    display: none;
+}
+
+.aqi-gauge-value {
+    position: static;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.aqi-number {
+    color: #222;
+    font-size: 28px;
+    letter-spacing: 0;
+}
+
+.aqi-gauge-value span {
+    margin: 0;
+}
+
+.aqi-category {
+    font-size: 15px;
+}
+
+.aqi-description {
+    max-width: none;
+    margin-top: 2px;
+}
+
+.aqi-scale {
+    display: none;
+}
+
+.location-info {
+    margin-top: 5px;
+    padding-top: 0;
+    border: 0;
+}
+
+.metric-item {
+    margin-top: 12px;
+}
+
+.metric-divider {
+    margin-top: 12px;
+}
+
+.pollutant-list {
+    margin-top: 5px;
+}
+
+.pollutant-row {
+    padding: 7px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.pollutant-row strong {
+    font-size: 14px;
+}
+
+.chart-heading {
+    margin-top: 22px;
+}
+
+.chart-card {
+    min-height: 0;
+}
+
+.chart-container {
+    height: 220px;
+    margin-top: 10px;
+}
+
+.chart-ranges {
+    border-radius: 0;
+    background: transparent;
+}
+
+.chart-ranges button,
+.chart-ranges button[aria-pressed="true"] {
+    border-radius: 0;
+    background: transparent;
+    color: #0645ad;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.research-grid,
+.about-content {
+    display: block;
+    border: 0;
+}
+
+.research-card,
+.about-card {
+    padding: 12px 0;
+}
+
+.research-list {
+    margin-top: 8px;
+    gap: 6px;
+}
+
+.research-list li {
+    padding-left: 0;
+    font-size: 14px;
+}
+
+.research-list li::before {
+    display: none;
+}
+
+.health-card {
+    display: block;
+}
+
+.health-card h3 {
+    font-size: 17px;
+}
+
+.health-card p:not(.eyebrow) {
+    color: #333;
+    font-size: 14px;
+}
+
+.health-card small {
+    font-size: 12px;
+}
+
+.about-story h2 {
+    font-size: 22px;
+}
+
+.about-story > p:not(.eyebrow) {
+    color: #333;
+    font-size: 15px;
+}
+
+.about-details li {
+    padding: 9px 0;
+}
+
+footer {
+    margin-top: 22px;
+}
+
+@media (max-width: 650px) {
+    .navbar {
+        padding: 8px 16px;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    .welcome,
+    .about-hero {
+        padding: 0;
+    }
+
+    .date-card {
+        padding: 0;
+        border: 0;
+    }
+
+    .card,
+    .research-card,
+    .about-card,
+    .health-card {
+        padding: 12px 0;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+    }
+}
+
 @media (max-width: 380px) {
     .nav-link {
         font-size: 10px;
@@ -1281,4 +1682,282 @@ h3,
 
 .health-card {
     background: #eaf6fb;
+}
+
+.welcome,
+.about-hero {
+    padding: 28px 0;
+    border: 0;
+    background: transparent;
+}
+
+.date-card {
+    width: auto;
+    padding: 4px 0 4px 20px;
+    border: 0;
+    border-left: 1px solid var(--line);
+    background: transparent;
+}
+
+.dashboard-grid {
+    gap: 0 36px;
+    border-top: 1px solid var(--line);
+}
+
+.card,
+.research-card,
+.about-card {
+    padding: 22px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+}
+
+.health-card {
+    padding: 22px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+}
+
+.health-icon {
+    background: var(--green-pale);
+}
+
+.about-content {
+    border-top: 1px solid var(--line);
+}
+
+@media (max-width: 650px) {
+    .welcome,
+    .about-hero {
+        padding: 22px 0;
+    }
+
+    .date-card {
+        padding: 14px 0 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
+
+    .card,
+    .research-card,
+    .about-card,
+    .health-card {
+        padding: 18px 0;
+    }
+}
+
+body {
+    background: #fff;
+    color: #222;
+    font: 16px/1.5 Arial, Helvetica, sans-serif;
+}
+
+.container {
+    width: min(900px, calc(100% - 32px));
+    margin: 24px auto;
+}
+
+.welcome,
+.about-hero {
+    min-height: 0;
+    padding: 0;
+    display: block;
+    border: 0;
+    background: transparent;
+}
+
+.date-card {
+    width: auto;
+    margin-top: 5px;
+    padding: 0;
+    display: block;
+    border: 0;
+    background: transparent;
+    color: #555;
+    font-size: 14px;
+}
+
+.date-card strong {
+    font: inherit;
+}
+
+.dashboard-grid,
+.research-grid,
+.about-content {
+    display: block;
+    border: 0;
+}
+
+.card,
+.research-card,
+.about-card,
+.health-card {
+    min-width: 0;
+    margin: 0;
+    padding: 12px 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.health-card {
+    display: block;
+}
+
+.aqi-content {
+    min-height: 0;
+    margin: 8px 0;
+}
+
+.aqi-gauge {
+    width: auto;
+    height: auto;
+    flex: 0 0 auto;
+}
+
+.aqi-gauge svg,
+.aqi-scale,
+.info-icon,
+.metric-icon,
+.health-icon,
+.about-mark,
+.location-button span,
+.location-info span:first-child,
+.scale-gradient,
+.scale-labels {
+    display: none;
+}
+
+.aqi-gauge-value {
+    position: static;
+    flex-direction: row;
+    gap: 4px;
+}
+
+.aqi-number {
+    color: #222;
+    font-size: 28px;
+}
+
+.card-heading {
+    color: #222;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-transform: lowercase;
+}
+
+.section-heading,
+.research-section {
+    margin: 22px 0 4px;
+}
+
+.section-heading .eyebrow,
+.eyebrow {
+    display: none;
+}
+
+.chart-card {
+    min-height: 0;
+}
+
+.chart-ranges {
+    border: 0;
+    background: transparent;
+}
+
+.chart-ranges button,
+.chart-ranges button[aria-pressed="true"] {
+    border-radius: 0;
+    background: transparent;
+    color: #0645ad;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+@media (max-width: 650px) {
+    .container {
+        margin-top: 20px;
+    }
+
+    .date-card {
+        padding: 0;
+        border: 0;
+    }
+
+    .card,
+    .research-card,
+    .about-card,
+    .health-card {
+        padding: 12px 0;
+    }
+}
+
+a:not(.brand),
+a:not(.brand):hover {
+    color: #555;
+}
+
+.search-box button {
+    min-height: 39px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 6px;
+    background: var(--green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.location-button {
+    min-height: 39px;
+    padding: 0 12px;
+    border: 1px solid #dfe5dc;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.quick-cities button {
+    padding: 5px 10px;
+    border: 1px solid #e1e6de;
+    border-radius: 99px;
+    background: transparent;
+    color: #66736b;
+    font-size: 10px;
+    text-decoration: none;
+}
+
+.chart-ranges {
+    padding: 3px;
+    display: flex;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #f7f8f5;
+}
+
+.chart-ranges button,
+.chart-ranges button[aria-pressed="true"] {
+    padding: 5px 9px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 10px;
+    text-decoration: none;
+}
+
+.chart-ranges button[aria-pressed="true"] {
+    background: #fff;
+    color: var(--green-dark);
+    box-shadow: 0 1px 3px rgba(31, 51, 41, 0.12);
 }

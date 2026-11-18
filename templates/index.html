@@ -16,7 +16,7 @@
 
     <header class="navbar">
 
-        <a class="brand" href="#" aria-label="AirAware home">
+        <a class="brand" href="{{ url_for('home') }}" aria-label="AirAware home">
             <span class="brand-icon" aria-hidden="true"><span></span></span>
             Air<span>Aware</span>
         </a>
@@ -32,24 +32,14 @@
         <section class="welcome">
 
             <div>
-                <p class="eyebrow">AIR QUALITY IN YOUR CITY</p>
-
-                <h1>
-                    Check the air<br>
-                    in your <span>city.</span> 
-                </h1>
+                <h1>Air quality by city</h1>
 
                 <p class="subtitle">
-                    I made this so it's easier to check air quality in different cities and get proper on time values which are accurate.This is an better version of my old website when i was in a team it had heavy AI used which i have reduced in this one check my old website at https://byte-battle-25-climate-action-unit.vercel.app/.
-                    
+                    Search for a city to see its current air-quality estimate.
                 </p>
             </div>
 
-            <div class="date-card">
-                <span>TODAY'S AIR CHECK</span>
-                <strong id="currentDate">Loading date...</strong>
-                <span class="date-note"><span class="status-dot" aria-hidden="true"></span> Check back whenever you want an update</span>
-            </div>
+            <p class="date-card">Today: <strong id="currentDate">Loading date...</strong></p>
 
         </section>
 
@@ -325,7 +315,7 @@
         <section class="card chart-card">
 
             <div class="card-heading">
-                <span></span> class="chart-unit">· µg/m³</span>
+                <span class="chart-unit">· µg/m³</span>
                 <div class="chart-ranges" role="group" aria-label="Chart time range">
                     <button type="button" data-range="12" aria-pressed="false">12h</button>
                     <button type="button" data-range="24" aria-pressed="true">24h</button>
